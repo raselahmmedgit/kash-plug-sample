@@ -8,10 +8,10 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace RnD.KashPlugSample.Models
 {
-    public class CostsOrExpense
+    public class CostOrExpense
     {
         [Key]
-        public int CostsOrExpenseId { get; set; }
+        public int CostOrExpenseId { get; set; }
 
         [DisplayName("Amount")]
         [Required(ErrorMessage = "Amount is required.")]
@@ -27,9 +27,9 @@ namespace RnD.KashPlugSample.Models
         [ForeignKey("AccountId")]
         public virtual Account Account { get; set; }
 
-        [Required(ErrorMessage = "Select Costs/Expenses Category.")]
-        public int CostsOrExpenseCategoryId { get; set; }
-        [ForeignKey("CostsOrExpenseCategoryId")]
-        public virtual CostsOrExpenseCategory CostsOrExpenseCategory { get; set; }
+        [Required(ErrorMessage = "Select Cost/Expense Category.")]
+        public int CostOrExpenseCategoryId { get; set; }
+        [ForeignKey("CostOrExpenseCategoryId")]
+        public virtual CostOrExpenseCategory CostOrExpenseCategory { get; set; }
     }
 }

@@ -34,28 +34,12 @@
                 <a class="navbar-brand" href="#">Kash Plug</a>
             </div>
             <div class="navbar-collapse collapse">
-                <ul class="nav navbar-nav">
-                    <li class="active"><a href="@Url.Action("Index", "CostOrExpense", new { area = "" }, null)">
-                        Costs And Expenses</a></li>
-                    <li class="active"><a href="@Url.Action("Index", "SaleOrIncome", new { area = "" }, null)">
-                        Sales And Incomes</a></li>
-                    <li class="dropdown"><a href="#" class="dropdown-toggle" data-toggle="dropdown">Settings
-                        <b class="caret"></b></a>
-                        <ul class="dropdown-menu">
-                            <li><a href="@Url.Action("Index", "CostOrExpenseCategory", new { area = "" }, null)">
-                                Costs And Expenses Category</a></li>
-                            <li><a href="@Url.Action("Index", "SaleOrIncomeCategory", new { area = "" }, null)">
-                                Sales And Incomes Category</a></li>
-                            <li><a href="@Url.Action("Index", "Account", new { area = "" }, null)">Account</a></li>
-                            <li><a href="@Url.Action("Index", "Currency", new { area = "" }, null)">Currency</a></li>
-                        </ul>
-                    </li>
-                </ul>
                 <ul class="nav navbar-nav navbar-right">
                     @if (Request.IsAuthenticated)
                     {
                         <li class="active">Welcome <strong>@User.Identity.Name</strong>!</li>
-                        <li><a href="@Url.Action("LogOut", "Home", new { area = "" }, null)">Log Out</a></li>
+                        <li><a href="@Url.Action("LogOut", "Home", new { area = "" }, null)"><i class="icon-off">
+                        </i>Log Out</a></li>
                     }
                 </ul>
             </div>

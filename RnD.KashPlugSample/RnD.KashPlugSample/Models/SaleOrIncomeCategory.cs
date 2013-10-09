@@ -11,8 +11,8 @@ namespace RnD.KashPlugSample.Models
     {
         [Key]
         public int SaleOrIncomeCategoryId { get; set; }
-        [DisplayName("Product/Goods Category Name")]
-        [Required(ErrorMessage = "Product/Goods Category Name is required")]
+        [DisplayName("Product/Good Category Name")]
+        [Required(ErrorMessage = "Product/Good Category Name is required")]
         [MaxLength(200)]
         public string SaleOrIncomeCategoryName { get; set; }
     }
