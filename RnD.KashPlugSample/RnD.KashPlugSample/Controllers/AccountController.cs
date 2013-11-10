@@ -3,8 +3,10 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
+using RnD.KashPlugSample.Helpers;
 using RnD.KashPlugSample.Models;
 using System.Data;
+using RnD.KashPlugSample.ViewModels;
 
 namespace RnD.KashPlugSample.Controllers
 {
@@ -20,6 +22,12 @@ namespace RnD.KashPlugSample.Controllers
             return View();
         }
 
+        public JsonResult AccountRead()
+        {
+            var models = GetAccountDataList();
+            return Json(models, JsonRequestBehavior.AllowGet);
+        }
+
         #region CRUD Action For Custom PopUp
 
         //
@@ -27,18 +35,24 @@ namespace RnD.KashPlugSample.Controllers
 
         public ActionResult Details(int id)
         {
-            Account account = _db.Accounts.Find(id);
-            //return View(account);
-            return PartialView("_Details", account);
-        }
+            var errorViewModel = new ErrorViewModel();
+            try
+            {
+                var account = _db.Accounts.Find(id);
+                if (account != null)
+                {
+                    var viewModel = new AccountViewModel() { AccountId = account.AccountId, AccountName = account.AccountName };
+                    //return View(account);
+                    return PartialView("_Details", viewModel);
+                }
+                errorViewModel.ErrorMessage = "Requested object could not found.";
+            }
+            catch (Exception ex)
+            {
+                errorViewModel.ErrorMessage = ExceptionHelper.ExceptionMessageFormat(ex);
+            }
 
-        //
-        // GET: /Account/Create
-
-        public ActionResult Create()
-        {
-            //return View();
-            return PartialView("_Create");
+            return PartialView("_Error", errorViewModel);
         }
 
         //
@@ -54,26 +68,25 @@ namespace RnD.KashPlugSample.Controllers
         // POST: /Account/Add
 
         [HttpPost]
-        public ActionResult Add(Account account)
+        public ActionResult Add(AccountViewModel accountViewModel)
         {
             try
             {
                 if (ModelState.IsValid)
                 {
-                    _db.Accounts.Add(account);
+                    var model = new Account() { AccountId = accountViewModel.AccountId, AccountName = accountViewModel.AccountName };
+
+                    _db.Accounts.Add(model);
                     _db.SaveChanges();
 
-                    //return RedirectToAction("Index");
                     return Content(Boolean.TrueString);
                 }
 
-                //return View(account);
-                //return PartialView("_Add", account);
-                return Content("Please review your form.");
+                return Content(ExceptionHelper.ModelStateErrorFormat(ModelState));
             }
             catch (Exception ex)
             {
-                return Content("Error Occured!");
+                return Content(ExceptionHelper.ExceptionMessageFormat(ex));
             }
         }
 
@@ -82,37 +95,50 @@ namespace RnD.KashPlugSample.Controllers
 
         public ActionResult Edit(int id)
         {
-            Account account = _db.Accounts.Find(id);
+            var errorViewModel = new ErrorViewModel();
+            try
+            {
+                var account = _db.Accounts.Find(id);
+                if (account != null)
+                {
+                    var viewModel = new AccountViewModel() { AccountId = account.AccountId, AccountName = account.AccountName };
+                    return PartialView("_Edit", viewModel);
+                }
+                errorViewModel.ErrorMessage = "Requested object could not found.";
+            }
+            catch (Exception ex)
+            {
+                errorViewModel.ErrorMessage = ExceptionHelper.ExceptionMessageFormat(ex);
+            }
 
-            //return View(account);
-            return PartialView("_Edit", account);
+            return PartialView("_Error", errorViewModel);
         }
 
         //
         // POST: /Account/Edit/By ID
 
         [HttpPost]
-        public ActionResult Edit(Account account)
+        public ActionResult Edit(AccountViewModel accountViewModel)
         {
             try
             {
                 if (ModelState.IsValid)
                 {
-                    _db.Entry(account).State = EntityState.Modified;
+                    var model = new Account() { AccountId = accountViewModel.AccountId, AccountName = accountViewModel.AccountName };
+
+                    _db.Entry(model).State = EntityState.Modified;
                     _db.SaveChanges();
 
-                    //return RedirectToAction("Index");
                     return Content(Boolean.TrueString);
                 }
 
-                //return View(account);
-                //return PartialView("_Edit", account);
-                return Content("Please review your form.");
+                return Content(ExceptionHelper.ModelStateErrorFormat(ModelState));
             }
             catch (Exception ex)
             {
-                return Content("Error Occured!");
+                return Content(ExceptionHelper.ExceptionMessageFormat(ex));
             }
+
         }
 
         //
@@ -120,10 +146,23 @@ namespace RnD.KashPlugSample.Controllers
 
         public ActionResult Delete(int id)
         {
-            Account account = _db.Accounts.Find(id);
+            var errorViewModel = new ErrorViewModel();
+            try
+            {
+                var account = _db.Accounts.Find(id);
+                if (account != null)
+                {
+                    var viewModel = new AccountViewModel() { AccountId = account.AccountId, AccountName = account.AccountName };
+                    return PartialView("_Delete", viewModel);
+                }
+                errorViewModel.ErrorMessage = "Requested object could not found.";
+            }
+            catch (Exception ex)
+            {
+                errorViewModel.ErrorMessage = ExceptionHelper.ExceptionMessageFormat(ex);
+            }
 
-            //return View(account);
-            return PartialView("_Delete", account);
+            return PartialView("_Error", errorViewModel);
         }
 
         //
@@ -140,14 +179,14 @@ namespace RnD.KashPlugSample.Controllers
                     _db.Accounts.Remove(account);
                     _db.SaveChanges();
 
-                    //return RedirectToAction("Index");
                     return Content(Boolean.TrueString);
                 }
-                return Content("Please review your form.");
+
+                return Content("Requested object could not found.");
             }
             catch (Exception ex)
             {
-                return Content("Error Occured!");
+                return Content(ExceptionHelper.ExceptionMessageFormat(ex));
             }
         }
 
@@ -158,5 +197,16 @@ namespace RnD.KashPlugSample.Controllers
             _db.Dispose();
             base.Dispose(disposing);
         }
+
+        #region Method
+
+        private List<Account> GetAccountDataList()
+        {
+            var viewModels = _db.Accounts.ToList().Select(c => new Account { AccountId = c.AccountId, AccountName = c.AccountName });
+
+            return viewModels.ToList();
+        }
+
+        #endregion
     }
 }

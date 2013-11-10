@@ -70,6 +70,41 @@ function KendoGridRefresh() {
 $(document).ready(function () {
 
     //-------------------------------------------------------
+    //start of kendo grid
+    $("#grid").kendoGrid({
+        dataSource: {
+            transport: {
+                read: "/Account/AccountRead"
+            },
+            schema: {
+                model: {
+                    fields: {
+                        AccountId: { type: "number" },
+                        AccountName: { type: "string" }
+                    }
+                }
+            },
+            pageSize: 10,
+            serverPaging: false,
+            serverFiltering: false,
+            serverSorting: false
+        },
+        height: 250,
+        filterable: true,
+        groupable: true,
+        sortable: true,
+        pageable: {
+            refresh: true,
+            pageSizes: true
+        },
+        columns: [{ field: "AccountId", title: "Account ID", width: 50, filterable: false },
+                  { field: "AccountName", title: "Account Name", width: 250 }
+        ]
+    });
+    //end of kendo grid
+    //-------------------------------------------------------
+
+    //-------------------------------------------------------
     //start Add, Edit, Delete - Dialog, Click Event
 
     $("#addAccountDialog").dialog({

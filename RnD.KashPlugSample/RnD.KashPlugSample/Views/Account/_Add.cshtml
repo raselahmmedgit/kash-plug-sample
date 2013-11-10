@@ -1,0 +1,28 @@
+﻿@model RnD.KashPlugSample.ViewModels.AccountViewModel
+@using (Ajax.BeginForm("Add", "Account", null,
+        new AjaxOptions
+        {
+            UpdateTargetId = "updateTargetId",
+            InsertionMode = InsertionMode.Replace,
+            HttpMethod = "POST",
+            OnSuccess = "AddAccountSuccess",
+        }, new { @id = "addAccountForm" }))
+{
+    
+
+    <div id="addAccountPage">
+        <legend>Category:</legend>@Html.ValidationSummary(true)
+        <div id="updateTargetId" class="error invisible">
+        </div>
+        <div class="editor-field">
+            <strong>@Html.LabelFor(model => model.AccountName): </strong>@Html.EditorFor(model => model.AccountName)
+            @Html.ValidationMessageFor(model => model.AccountName)
+        </div>
+        <div id="addCategoryButtonZone">
+            <button type="submit" class="button" id="btnSubmit" name="btnSubmit">
+                Add</button>
+            <button type="button" class="button" id="btnCancel" name="btnCancel" onclick=" $($(this).dialog('close'));">
+                Cancel</button>
+        </div>
+    </div>
+}
