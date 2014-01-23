@@ -2,7 +2,6 @@
 //start Add, Edit, Delete - Success Funtion
 // Add Account Success Function
 function AddAccountSuccess() {
-    alert("AddAccountSuccess");
     if ($("#updateTargetId").html() == "True") {
 
         //now we can close the dialog
@@ -61,8 +60,8 @@ function DeleteAccountSuccess() {
 //start Refresh Kendo Grid Funtion
 function KendoGridRefresh() {
     //Get Account Grid
-    var catGrid = $('#categoryGrid').data('kendoGrid');
-    catGrid.dataSource.read();
+    var kdGrid = $('#gridAccount').data('kendoGrid');
+    kdGrid.dataSource.read();
 }
 //end Refresh Kendo Grid Funtion
 //-----------------------------------------------------
@@ -71,7 +70,7 @@ $(document).ready(function () {
 
     //-------------------------------------------------------
     //start of kendo grid
-    $("#grid").kendoGrid({
+    $("#gridAccount").kendoGrid({
         dataSource: {
             transport: {
                 read: "/Account/AccountRead"
@@ -97,7 +96,7 @@ $(document).ready(function () {
             refresh: true,
             pageSizes: true
         },
-        columns: [{ field: "AccountId", title: "Account ID", width: 50, filterable: false },
+        columns: [{ field: "AccountId", title: "AccountID", width: 50, filterable: false },
                   { field: "AccountName", title: "Account Name", width: 250 }
         ]
     });
@@ -125,7 +124,7 @@ $(document).ready(function () {
     });
 
     //add Account
-    $('.lnkAddAccount').live('click', function () {
+    $('#btnAddAccount').live('click', function () {
 
         //change the title of the dialog
         var linkObj = $(this);

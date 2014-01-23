@@ -8,21 +8,28 @@
             OnSuccess = "AddAccountSuccess",
         }, new { @id = "addAccountForm" }))
 {
-    
-
     <div id="addAccountPage">
-        <legend>Category:</legend>@Html.ValidationSummary(true)
-        <div id="updateTargetId" class="error invisible">
+        <div class="row-fluid">
+            <div id="updateTargetId" class="alert-warning " style="display: none">
+            </div>
         </div>
-        <div class="editor-field">
-            <strong>@Html.LabelFor(model => model.AccountName): </strong>@Html.EditorFor(model => model.AccountName)
-            @Html.ValidationMessageFor(model => model.AccountName)
+        <div class="row-fluid">
+            <div class="control-group">
+                <label class="control-label" for="AccountName">
+                    Account Name:</label>
+                <div class="controls">
+                    @Html.EditorFor(model => model.AccountName)
+                    @Html.ValidationMessageFor(model => model.AccountName)
+                </div>
+            </div>
         </div>
-        <div id="addCategoryButtonZone">
-            <button type="submit" class="button" id="btnSubmit" name="btnSubmit">
-                Add</button>
-            <button type="button" class="button" id="btnCancel" name="btnCancel" onclick=" $($(this).dialog('close'));">
-                Cancel</button>
+        <div class="row-fluid">
+            <div id="addCategoryButtonZone" class="pull-right">
+                <button type="submit" class="btn btn-primary" id="btnSubmit" name="btnSubmit">
+                    Add</button>
+                <button type="button" class="btn btn-warning" id="btnCancel" name="btnCancel" onclick=" $($(this).dialog('close'));">
+                    Cancel</button>
+            </div>
         </div>
     </div>
 }
