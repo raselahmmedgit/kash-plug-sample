@@ -3,8 +3,8 @@
 }
 <div id="indexPage">
     <div class="span12">
-        <a href="/Account/Add" class="btn btn-primary " id="btnAddAccount"><span class="glyphicon glyphicon-plus">
-        </span>&nbsp;&nbsp;Add</a>
+        <a href="@Url.Action("Add", "Account")" class="btn btn-primary " id="lnkAddCommon"><span
+            class="glyphicon glyphicon-plus"></span>&nbsp;&nbsp;Add</a>
     </div>
     <br />
     <div class="span12">
@@ -12,16 +12,60 @@
             <div id="gridAccount">
             </div>
         </div>
-        <div id="popUpZone">
-            <div id="addAccountDialog" title="Add Account">
-            </div>
-            <div id="editAccountDialog" title="Edit Account">
-            </div>
-            <div id="deleteAccountDialog" title="Delete Account">
-            </div>
-            <div id="detailsAccountDailog" title="Details Account">
-            </div>
-        </div>
     </div>
 </div>
-<script src="@Url.Content("~/Scripts/App/account-jq.js")" type="text/javascript"></script>
+<script type="text/javascript">
+
+    $(document).ready(function () {
+
+        //-------------------------------------------------------
+        //start of kendo grid
+
+        var _id = "#gridAccount";
+        var _readUrl = '@Url.Action("AccountRead", "Account")';
+
+        $(_id).kendoGrid({
+            dataSource: {
+                transport: {
+                    read: _readUrl
+                },
+                schema: {
+                    data: function (data) {
+                        return data.Data;
+                    },
+                    model: {
+                        fields: {
+                            AccountId: { type: "number" },
+                            AccountName: { type: "string" },
+                            ActionLink: { type: "string" }
+                        }
+                    }, //end model
+                    total: function (data) {
+                        return data.Total;
+                    }
+                },
+                //pageSize: 20,
+                serverPaging: true,
+                serverFiltering: false,
+                serverSorting: true
+            },
+            height: 250,
+            filterable: true,
+            groupable: true,
+            sortable: true,
+            pageable: {
+                refresh: true,
+                pageSizes: true,
+                pageSizes: [20, 40, 60, 80, 100]
+            },
+            columns: [{ field: "AccountId", title: "AccountID", hidden: true, filterable: false, sortable: false },
+                  { field: "AccountName", title: "Account Name", width: "80%" },
+                  { field: "ActionLink", title: "Actions", width: "15%", filterable: false, sortable: false }
+        ]
+        });
+        //end of kendo grid
+        //-------------------------------------------------------
+
+    });
+
+</script>

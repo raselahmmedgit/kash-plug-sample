@@ -1,0 +1,29 @@
+﻿.progess-bar
+{
+    padding: 4px 0 0 24px;
+    margin: 0px;
+}
+
+.addOrEditPage
+{
+    min-height: 100px;
+    -moz-min-width: 350px;
+    -ms-min-width: 350px;
+    -o-min-width: 350px;
+    -webkit-min-width: 350px;
+    min-width: 350px;
+}
+
+.detailsPage
+{
+    min-height: 100px;
+    -moz-min-width: 350px;
+    -ms-min-width: 350px;
+    -o-min-width: 350px;
+    -webkit-min-width: 350px;
+    min-width: 350px;
+}
+
+.buttonZone
+{
+}

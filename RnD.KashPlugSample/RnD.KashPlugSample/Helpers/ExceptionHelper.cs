@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
+using RnD.KashPlugSample.ViewModels;
 
 namespace RnD.KashPlugSample.Helpers
 {
@@ -35,6 +36,65 @@ namespace RnD.KashPlugSample.Helpers
             }
 
             return message;
+        }
+
+        public static ErrorViewModel ExceptionErrorMessageFormat(Exception ex)
+        {
+            var errorViewModel = new ErrorViewModel();
+
+            string message = "Error: There was a problem while processing your request: " + ex.Message;
+
+            if (ex.InnerException != null)
+            {
+                Exception inner = ex.InnerException;
+                if (inner is System.Data.Common.DbException)
+                    message = "Database is currently experiencing problems. " + inner.Message;
+                else if (inner is System.Data.UpdateException)
+                    message = "Datebase is currently updating problem.";
+                else if (inner is System.Data.EntityException)
+                    message = "Entity is problem.";
+                else if (inner is NullReferenceException)
+                    message = "There are one or more required fields that are missing.";
+                else if (inner is ArgumentException)
+                {
+                    string paramName = ((ArgumentException)inner).ParamName;
+                    message = string.Concat("The ", paramName, " value is illegal.");
+                }
+                else if (inner is ApplicationException)
+                    message = "Exception in application" + inner.Message;
+                else
+                    message = inner.Message;
+
+            }
+
+            errorViewModel.ErrorType = "error";
+            errorViewModel.ErrorMessage = message;
+
+            return errorViewModel;
+        }
+
+        public static ErrorViewModel ExceptionErrorMessageForNullObject()
+        {
+            var errorViewModel = new ErrorViewModel();
+
+            string message = "Requested object could not found.";
+
+            errorViewModel.ErrorType = "warn";
+            errorViewModel.ErrorMessage = message;
+
+            return errorViewModel;
+        }
+
+        public static ErrorViewModel ExceptionErrorMessageForCommon()
+        {
+            var errorViewModel = new ErrorViewModel();
+
+            string message = "Oops! Exception in application.";
+
+            errorViewModel.ErrorType = "info";
+            errorViewModel.ErrorMessage = message;
+
+            return errorViewModel;
         }
 
         public static string ModelStateErrorFormat(System.Web.Mvc.ModelStateDictionary modelStateDictionary)
