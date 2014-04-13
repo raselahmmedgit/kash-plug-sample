@@ -913,6 +913,7 @@
     <Content Include="Theme\css\jQueryUI\jquery-ui-1.10.3.custom.min.css" />
     <Content Include="Theme\css\jvectormap\jquery-jvectormap-1.2.2.css" />
     <Content Include="Theme\css\morris\morris.css" />
+    <Content Include="Theme\css\theme.custom.css" />
     <Content Include="Theme\css\timepicker\bootstrap-timepicker.css" />
     <Content Include="Theme\css\timepicker\bootstrap-timepicker.min.css" />
     <Content Include="Theme\img\ajax-loader.gif" />
@@ -943,6 +944,8 @@
     <Content Include="Theme\img\user-bg.png" />
     <Content Include="Theme\img\user.jpg" />
     <Content Include="Theme\img\user2.jpg" />
+    <Content Include="Theme\js\AdminLTE\app.js" />
+    <Content Include="Theme\js\AdminLTE\dashboard.js" />
     <Content Include="Theme\js\plugins\raphael\raphael-min.js" />
     <Content Include="Theme\js\bootstrap.min.js" />
     <Content Include="Theme\js\jquery-ui-1.10.3.js" />

@@ -470,7 +470,7 @@ $(document).ready(function () {
         pinned: true,
         position: { top: 100 },
         visible: false
-    })
+    });
 
     $("#appDeleteWindow").kendoWindow({
         actions: ["Minimize", "Maximize", "Close"],
@@ -480,7 +480,7 @@ $(document).ready(function () {
         pinned: true,
         position: { top: 100 },
         visible: false
-    })
+    });
 
     $("#appMessageWindow").kendoWindow({
         draggable: false,
@@ -489,7 +489,7 @@ $(document).ready(function () {
         minHeight: 100,
         minWidth: 300,
         visible: false
-    })
+    });
 
     $("#appProgressWindow").kendoWindow({
         title: false,
@@ -505,7 +505,7 @@ $(document).ready(function () {
             console.log(e);
 
         }
-    })
+    });
 
     //-----------------------------------------------------
     //add Common

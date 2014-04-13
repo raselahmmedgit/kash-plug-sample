@@ -10,28 +10,26 @@
             OnComplete = "AppCommonWindowComplete",
         }, new { @id = "appCommonWindowForm" }))
 {
-    <div id="addOrEditPage" class="addOrEditPage">
-        <div class="row-fluid">
+    <div id="addOrEditPage" class="addOrEditPage col-xs-12">
+        <div class="row ">
             <div id="updateTargetId" class="alert-warning " style="display: none">
             </div>
         </div>
-        <div class="row-fluid">
-            <div class="control-group">
-                <label class="control-label" for="AccountName">
-                    Account Name:</label>
-                <div class="controls">
-                    @Html.HiddenFor(model => model.AccountId)
-                    @Html.EditorFor(model => model.AccountName)
-                    @Html.ValidationMessageFor(model => model.AccountName)
-                </div>
+        <div class="row ">
+            @Html.HiddenFor(model => model.AccountId)
+            <div class="form-group">
+                @Html.LabelFor(model => model.AccountName)
+                @Html.TextBoxFor(model => model.AccountName, new { @class = "form-control-win" })
+                @Html.ValidationMessageFor(model => model.AccountName)
             </div>
         </div>
-        <div class="row-fluid">
+        <div class="row form-hr">
             <div id="buttonZone" class="pull-right buttonZone">
-                <button type="submit" class="btn btn-primary" id="btnSubmit" name="btnSubmit">
-                    Save</button>
-                <button type="button" class="btn btn-warning" id="btnCancel" name="btnCancel" onclick="CloseAppCommonWindow()">
-                    Cancel</button>
+                <button type="submit" class="btn btn-success btn-sm btn-flat" id="btnSubmit" name="btnSubmit">
+                    <i class="fa fa-save"></i>&nbsp;&nbsp;Save</button>
+                <button type="button" class="btn btn-warning btn-sm btn-flat" id="btnCancel" name="btnCancel"
+                    onclick="CloseAppCommonWindow()">
+                    <i class="fa fa-times"></i>&nbsp;&nbsp;Cancel</button>
             </div>
         </div>
     </div>
