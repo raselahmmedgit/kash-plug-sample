@@ -1,0 +1,58 @@
+﻿@model RnD.KashPlugSample.ViewModels.SaleOrIncomeViewModel
+<div id="detailsPage" class="detailsPage  form-win col-xs-12">
+    <div class="row">
+        <div class="form-group">
+            @Html.LabelFor(model => model.UnitPrice)
+            @Html.DisplayFor(model => model.UnitPrice)
+        </div>
+    </div>
+    <div class="row ">
+        <div class="form-group">
+            @Html.LabelFor(model => model.Quantity)
+            @Html.DisplayFor(model => model.Quantity)
+        </div>
+    </div>
+    <div class="row ">
+        <div class="form-group">
+            @Html.LabelFor(model => model.ProcessCostRate)
+            @Html.DisplayFor(model => model.ProcessCostRate)
+        </div>
+    </div>
+    <div class="row ">
+        <div class="form-group">
+            @Html.LabelFor(model => model.ExtraCostAmount)
+            @Html.DisplayFor(model => model.ExtraCostAmount)
+        </div>
+    </div>
+    <div class="row ">
+        <div class="form-group">
+            @Html.LabelFor(model => model.CreateDate)
+            @Html.DisplayFor(model => model.CreateDate)
+        </div>
+    </div>
+    <div class="row ">
+        <div class="form-group">
+            @Html.LabelFor(model => model.AccountName)
+            @Html.DisplayFor(model => model.AccountName)
+        </div>
+    </div>
+    <div class="row ">
+        <div class="form-group">
+            @Html.LabelFor(model => model.SaleOrIncomeCategoryName)
+            @Html.DisplayFor(model => model.SaleOrIncomeCategoryName)
+        </div>
+    </div>
+    <div class="row ">
+        <div class="form-group">
+            @Html.LabelFor(model => model.Remarks)
+            @Html.DisplayFor(model => model.Remarks)
+        </div>
+    </div>
+    <div class="row">
+        <div id="buttonZone" class="pull-right buttonZone">
+            <button type="button" class="btn btn-warning btn-sm btn-flat" id="btnCancel" name="btnCancel"
+                onclick="CloseAppCommonWindow()">
+                <i class="fa fa-times"></i>&nbsp;&nbsp;Cancel</button>
+        </div>
+    </div>
+</div>

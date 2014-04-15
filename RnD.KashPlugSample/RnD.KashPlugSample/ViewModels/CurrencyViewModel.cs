@@ -5,9 +5,9 @@ using System.Web;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel;
 
-namespace RnD.KashPlugSample.Models
+namespace RnD.KashPlugSample.ViewModels
 {
-    public class Currency
+    public class CurrencyViewModel : BaseViewModel
     {
         [Key]
         public int CurrencyId { get; set; }

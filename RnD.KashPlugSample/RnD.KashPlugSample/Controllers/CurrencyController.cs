@@ -3,14 +3,18 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
+using RnD.KashPlugSample.Helpers;
 using RnD.KashPlugSample.Models;
 using System.Data;
+using RnD.KashPlugSample.ViewModels;
 
 namespace RnD.KashPlugSample.Controllers
 {
     public class CurrencyController : Controller
     {
         private AppDbContext _db = new AppDbContext();
+
+        #region Action
 
         //
         // GET: /Currency/
@@ -20,25 +24,38 @@ namespace RnD.KashPlugSample.Controllers
             return View();
         }
 
-        #region CRUD Action For Custom PopUp
+        public JsonResult CurrencyRead(KendoUiGridParam request)
+        {
+            var currencyViewModels = GetCurrencyDataList().AsQueryable();
+            var models = KendoUiHelper.ParseGridData<CurrencyViewModel>(currencyViewModels, request);
+
+            return Json(models, JsonRequestBehavior.AllowGet);
+        }
 
         //
         // GET: /Currency/Details/By ID
 
         public ActionResult Details(int id)
         {
-            Currency currency = _db.Currencies.Find(id);
-            //return View(currency);
-            return PartialView("_Details", currency);
-        }
+            var errorViewModel = new ErrorViewModel();
 
-        //
-        // GET: /Currency/Create
+            try
+            {
+                var currency = _db.Currencies.Find(id);
+                if (currency != null)
+                {
+                    var viewModel = new CurrencyViewModel() { CurrencyId = currency.CurrencyId, CurrencyName = currency.CurrencyName };
+                    return PartialView("_Details", viewModel);
+                }
 
-        public ActionResult Create()
-        {
-            //return View();
-            return PartialView("_Create");
+                errorViewModel = ExceptionHelper.ExceptionErrorMessageForNullObject();
+            }
+            catch (Exception ex)
+            {
+                errorViewModel = ExceptionHelper.ExceptionErrorMessageFormat(ex);
+            }
+
+            return PartialView("_ErrorPopup", errorViewModel);
         }
 
         //
@@ -46,35 +63,9 @@ namespace RnD.KashPlugSample.Controllers
 
         public ActionResult Add()
         {
+            var viewModel = new CurrencyViewModel() { CurrencyId = 0 };
             //return View();
-            return PartialView("_Add");
-        }
-
-        //
-        // POST: /Currency/Add
-
-        [HttpPost]
-        public ActionResult Add(Currency currency)
-        {
-            try
-            {
-                if (ModelState.IsValid)
-                {
-                    _db.Currencies.Add(currency);
-                    _db.SaveChanges();
-
-                    //return RedirectToAction("Index");
-                    return Content(Boolean.TrueString);
-                }
-
-                //return View(currency);
-                //return PartialView("_Add", currency);
-                return Content("Please review your form.");
-            }
-            catch (Exception ex)
-            {
-                return Content("Error Occured!");
-            }
+            return PartialView("_AddOrEdit", viewModel);
         }
 
         //
@@ -82,55 +73,77 @@ namespace RnD.KashPlugSample.Controllers
 
         public ActionResult Edit(int id)
         {
-            Currency currency = _db.Currencies.Find(id);
+            var errorViewModel = new ErrorViewModel();
 
-            //return View(currency);
-            return PartialView("_Edit", currency);
+            try
+            {
+                var currency = _db.Currencies.Find(id);
+                if (currency != null)
+                {
+                    var viewModel = new CurrencyViewModel() { CurrencyId = currency.CurrencyId, CurrencyName = currency.CurrencyName };
+                    return PartialView("_AddOrEdit", viewModel);
+                }
+
+                errorViewModel = ExceptionHelper.ExceptionErrorMessageForNullObject();
+            }
+            catch (Exception ex)
+            {
+                errorViewModel = ExceptionHelper.ExceptionErrorMessageFormat(ex);
+            }
+
+            return PartialView("_ErrorPopup", errorViewModel);
         }
 
         //
-        // POST: /Currency/Edit/By ID
+        // POST: /Currency/Save
 
         [HttpPost]
-        public ActionResult Edit(Currency currency)
+        public ActionResult Save(CurrencyViewModel currencyViewModel)
         {
             try
             {
                 if (ModelState.IsValid)
                 {
-                    _db.Entry(currency).State = EntityState.Modified;
+                    //add
+                    if (currencyViewModel.CurrencyId == 0)
+                    {
+                        var model = new Currency() { CurrencyId = currencyViewModel.CurrencyId, CurrencyName = currencyViewModel.CurrencyName };
+                        _db.Currencies.Add(model);
+                    }
+                    else //edit
+                    {
+                        Currency currency = _db.Currencies.Find(currencyViewModel.CurrencyId);
+
+                        if (currency != null)
+                        {
+
+                            currency.CurrencyId = currencyViewModel.CurrencyId;
+                            currency.CurrencyName = currencyViewModel.CurrencyName;
+                            _db.Entry(currency).State = EntityState.Modified;
+
+                        }
+
+                        return Content(KendoUiHelper.GetKendoUiWindowAjaxSuccessMethod(Boolean.FalseString, MessageType.warn.ToString(), ExceptionHelper.ExceptionMessageForNullObject()));
+
+                    }
+
                     _db.SaveChanges();
 
-                    //return RedirectToAction("Index");
-                    return Content(Boolean.TrueString);
+                    return Content(KendoUiHelper.GetKendoUiWindowAjaxSuccessMethod(Boolean.TrueString, MessageType.success.ToString(), "Saved Successfully."));
                 }
 
-                //return View(currency);
-                //return PartialView("_Edit", currency);
-                return Content("Please review your form.");
+                return Content(KendoUiHelper.GetKendoUiWindowAjaxSuccessMethod(Boolean.TrueString, MessageType.success.ToString(), ExceptionHelper.ModelStateErrorFormat(ModelState)));
             }
             catch (Exception ex)
             {
-                return Content("Error Occured!");
+                return Content(KendoUiHelper.GetKendoUiWindowAjaxSuccessMethod(Boolean.TrueString, MessageType.success.ToString(), ExceptionHelper.ExceptionMessageFormat(ex)));
             }
-        }
-
-        //
-        // GET: /Currency/Delete/By ID
-
-        public ActionResult Delete(int id)
-        {
-            Currency currency = _db.Currencies.Find(id);
-
-            //return View(currency);
-            return PartialView("_Delete", currency);
         }
 
         //
         // POST: /Currency/Delete/By ID
-
-        [HttpPost, ActionName("Delete")]
-        public ActionResult DeleteConfirmed(int id)
+        [HttpPost]
+        public ActionResult Delete(int id)
         {
             try
             {
@@ -140,23 +153,44 @@ namespace RnD.KashPlugSample.Controllers
                     _db.Currencies.Remove(currency);
                     _db.SaveChanges();
 
-                    //return RedirectToAction("Index");
-                    return Content(Boolean.TrueString);
+                    return Json(new { status = Boolean.FalseString, messageType = MessageType.success.ToString(), messageText = "Deleted Successfully." }, JsonRequestBehavior.AllowGet);
                 }
-                return Content("Please review your form.");
+
+                return Json(new { status = Boolean.FalseString, messageType = MessageType.warn.ToString(), messageText = ExceptionHelper.ExceptionMessageForNullObject() }, JsonRequestBehavior.AllowGet);
+
             }
             catch (Exception ex)
             {
-                return Content("Error Occured!");
+                return Json(new { status = Boolean.FalseString, messageType = MessageType.error.ToString(), messageText = ExceptionHelper.ExceptionMessageFormat(ex) }, JsonRequestBehavior.AllowGet);
             }
         }
 
         #endregion
+
+        #region Method
 
         protected override void Dispose(bool disposing)
         {
             _db.Dispose();
             base.Dispose(disposing);
         }
+
+        private List<CurrencyViewModel> GetCurrencyDataList()
+        {
+            var dataList = _db.Currencies.ToList().Select(c => new Currency { CurrencyId = c.CurrencyId, CurrencyName = c.CurrencyName });
+
+            var viewModels = dataList.Select(
+                md => new CurrencyViewModel
+                {
+                    CurrencyId = md.CurrencyId,
+                    CurrencyName = md.CurrencyName,
+
+                    ActionLink = KendoUiHelper.KendoUIGridActionLinkGenerate(md.CurrencyId.ToString())
+                }).OrderBy(o => o.CurrencyName).ToList();
+
+            return viewModels;
+        }
+
+        #endregion
     }
 }

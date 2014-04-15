@@ -1,5 +1,5 @@
-﻿@model RnD.KashPlugSample.ViewModels.AccountViewModel
-@using (Ajax.BeginForm("Save", "Account", null,
+﻿@model RnD.KashPlugSample.ViewModels.SaleOrIncomeCategoryViewModel
+@using (Ajax.BeginForm("Save", "SaleOrIncomeCategory", null,
         new AjaxOptions
         {
             UpdateTargetId = "updateTargetId",
@@ -16,11 +16,11 @@
             </div>
         </div>
         <div class="row ">
-            @Html.HiddenFor(model => model.AccountId)
+            @Html.HiddenFor(model => model.SaleOrIncomeCategoryId)
             <div class="form-group">
-                @Html.LabelFor(model => model.AccountName)
-                @Html.TextBoxFor(model => model.AccountName)
-                @Html.ValidationMessageFor(model => model.AccountName)
+                @Html.LabelFor(model => model.SaleOrIncomeCategoryName)
+                @Html.TextBoxFor(model => model.SaleOrIncomeCategoryName)
+                @Html.ValidationMessageFor(model => model.SaleOrIncomeCategoryName)
             </div>
         </div>
         <div class="row form-hr">

@@ -38,6 +38,13 @@ namespace RnD.KashPlugSample.Helpers
             return message;
         }
 
+        public static string ExceptionMessageForNullObject()
+        {
+            string message = "Requested object could not found.";
+
+            return message;
+        }
+
         public static ErrorViewModel ExceptionErrorMessageFormat(Exception ex)
         {
             var errorViewModel = new ErrorViewModel();
@@ -118,5 +125,6 @@ namespace RnD.KashPlugSample.Helpers
 
             return message;
         }
+
     }
 }

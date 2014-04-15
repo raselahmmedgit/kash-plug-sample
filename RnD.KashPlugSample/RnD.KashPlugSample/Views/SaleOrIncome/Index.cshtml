@@ -1,5 +1,107 @@
 ﻿@{
-    ViewBag.Title = "Index";
+    ViewBag.Title = "Sale/Income Index";
 }
+<div id="indexPage">
+    <div class="row">
+        <div class="col-xs-12">
+            <div class="box">
+                <div class="box-header">
+                    <a href="@Url.Action("Add", "SaleOrIncome")" title="Add" class="btn btn-primary btn-sm btn-flat" id="lnkAddCommon">
+                        <i class="fa fa-plus"></i>&nbsp;&nbsp;Add</a></div>
+                <!-- /.box-header -->
+                <div class="box-body table-responsive">
+                    <div id="gridZone">
+                        <div id="gridSaleOrIncome">
+                        </div>
+                    </div>
+                </div>
+                <!-- /.box-body -->
+            </div>
+            <!-- /.box -->
+        </div>
+    </div>
+</div>
+<script type="text/javascript">
 
-<h2>Index</h2>
+    //-----------------------------------------------------
+    //start Refresh Kendo Grid Funtion For Index Page
+    function KendoGridRefreshInIndexPage() {
+        //Get Grid
+        var kdGrid = $('#gridSaleOrIncome').data('kendoGrid');
+        kdGrid.dataSource.read();
+    }
+    //-----------------------------------------------------
+    //end Refresh Kendo Grid Funtion For Index Page
+
+    $(document).ready(function () {
+
+        //-------------------------------------------------------
+        //start of kendo grid
+
+        var _id = "#gridSaleOrIncome";
+        var _readUrl = '@Url.Action("SaleOrIncomeRead", "SaleOrIncome")';
+
+        $(_id).kendoGrid({
+            dataSource: {
+                transport: {
+                    read: _readUrl
+                },
+                schema: {
+                    data: function (data) {
+                        return data.Data;
+                    },
+                    model: {
+                        fields: {
+                            SaleOrIncomeId: { type: "number" },
+                            UnitPrice: { type: "number" },
+                            Quantity: { type: "number" },
+                            ProcessCostRate: { type: "number" },
+                            ExtraCostAmount: { type: "number" },
+                            CreateDate: { type: "string" },
+                            AccountId: { type: "number" },
+                            AccountName: { type: "string" },
+                            SaleOrIncomeCategoryId: { type: "number" },
+                            SaleOrIncomeCategoryName: { type: "string" },
+                            Remarks: { type: "string" },
+                            ActionLink: { type: "string" }
+                        }
+                    }, //end model
+                    total: function (data) {
+                        return data.Total;
+                    }
+                },
+                //pageSize: 20,
+                serverPaging: true,
+                serverFiltering: false,
+                serverSorting: true
+            },
+            height: 250,
+            filterable: true,
+            groupable: true,
+            sortable: true,
+            pageable: {
+                refresh: true,
+                pageSizes: true,
+                pageSizes: [20, 40, 60, 80, 100]
+            },
+            columns: [
+                  { field: "SaleOrIncomeId", title: "SaleOrIncomeId", hidden: true, filterable: false, sortable: false },
+                  { field: "UnitPrice", title: "Unit Price" },
+                  { field: "Quantity", title: "Quantity" },
+                  { field: "ProcessCostRate", title: "Process Cost Rate" },
+                  { field: "ExtraCostAmount", title: "Extra Cost Amount" },
+                  { field: "CreateDate", title: "Create Date" },
+                  { field: "AccountId", title: "AccountId", hidden: true, filterable: false, sortable: false },
+                  { field: "AccountName", title: "Account" },
+                  { field: "SaleOrIncomeCategoryId", title: "SaleOrIncomeCategoryId", hidden: true, filterable: false, sortable: false },
+                  { field: "SaleOrIncomeCategoryName", title: "Sale/Income Category" },
+                  { field: "Remarks", title: "Remarks" },
+                  { field: "ActionLink", title: "Actions", width: "15%", filterable: false, sortable: false }
+        ]
+        });
+        //end of kendo grid
+        //-------------------------------------------------------
+
+    });
+
+</script>

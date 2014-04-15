@@ -3,14 +3,18 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
+using RnD.KashPlugSample.Helpers;
 using RnD.KashPlugSample.Models;
 using System.Data;
+using RnD.KashPlugSample.ViewModels;
 
 namespace RnD.KashPlugSample.Controllers
 {
     public class SaleOrIncomeCategoryController : Controller
     {
         private AppDbContext _db = new AppDbContext();
+
+        #region Action
 
         //
         // GET: /SaleOrIncomeCategory/
@@ -20,25 +24,38 @@ namespace RnD.KashPlugSample.Controllers
             return View();
         }
 
-        #region CRUD Action For Custom PopUp
+        public JsonResult SaleOrIncomeCategoryRead(KendoUiGridParam request)
+        {
+            var saleOrIncomeCategoryViewModels = GetSaleOrIncomeCategoryDataList().AsQueryable();
+            var models = KendoUiHelper.ParseGridData<SaleOrIncomeCategoryViewModel>(saleOrIncomeCategoryViewModels, request);
+
+            return Json(models, JsonRequestBehavior.AllowGet);
+        }
 
         //
         // GET: /SaleOrIncomeCategory/Details/By ID
 
         public ActionResult Details(int id)
         {
-            SaleOrIncomeCategory saleOrIncomeCategory = _db.SaleOrIncomeCategories.Find(id);
-            //return View(saleOrIncomeCategory);
-            return PartialView("_Details", saleOrIncomeCategory);
-        }
+            var errorViewModel = new ErrorViewModel();
 
-        //
-        // GET: /SaleOrIncomeCategory/Create
+            try
+            {
+                var saleOrIncomeCategory = _db.SaleOrIncomeCategories.Find(id);
+                if (saleOrIncomeCategory != null)
+                {
+                    var viewModel = new SaleOrIncomeCategoryViewModel() { SaleOrIncomeCategoryId = saleOrIncomeCategory.SaleOrIncomeCategoryId, SaleOrIncomeCategoryName = saleOrIncomeCategory.SaleOrIncomeCategoryName };
+                    return PartialView("_Details", viewModel);
+                }
 
-        public ActionResult Create()
-        {
-            //return View();
-            return PartialView("_Create");
+                errorViewModel = ExceptionHelper.ExceptionErrorMessageForNullObject();
+            }
+            catch (Exception ex)
+            {
+                errorViewModel = ExceptionHelper.ExceptionErrorMessageFormat(ex);
+            }
+
+            return PartialView("_ErrorPopup", errorViewModel);
         }
 
         //
@@ -46,35 +63,9 @@ namespace RnD.KashPlugSample.Controllers
 
         public ActionResult Add()
         {
+            var viewModel = new SaleOrIncomeCategoryViewModel() { SaleOrIncomeCategoryId = 0 };
             //return View();
-            return PartialView("_Add");
-        }
-
-        //
-        // POST: /SaleOrIncomeCategory/Add
-
-        [HttpPost]
-        public ActionResult Add(SaleOrIncomeCategory saleOrIncomeCategory)
-        {
-            try
-            {
-                if (ModelState.IsValid)
-                {
-                    _db.SaleOrIncomeCategories.Add(saleOrIncomeCategory);
-                    _db.SaveChanges();
-
-                    //return RedirectToAction("Index");
-                    return Content(Boolean.TrueString);
-                }
-
-                //return View(saleOrIncomeCategory);
-                //return PartialView("_Add", saleOrIncomeCategory);
-                return Content("Please review your form.");
-            }
-            catch (Exception ex)
-            {
-                return Content("Error Occured!");
-            }
+            return PartialView("_AddOrEdit", viewModel);
         }
 
         //
@@ -82,55 +73,78 @@ namespace RnD.KashPlugSample.Controllers
 
         public ActionResult Edit(int id)
         {
-            SaleOrIncomeCategory saleOrIncomeCategory = _db.SaleOrIncomeCategories.Find(id);
+            var errorViewModel = new ErrorViewModel();
 
-            //return View(saleOrIncomeCategory);
-            return PartialView("_Edit", saleOrIncomeCategory);
+            try
+            {
+                var saleOrIncomeCategory = _db.SaleOrIncomeCategories.Find(id);
+                if (saleOrIncomeCategory != null)
+                {
+                    var viewModel = new SaleOrIncomeCategoryViewModel() { SaleOrIncomeCategoryId = saleOrIncomeCategory.SaleOrIncomeCategoryId, SaleOrIncomeCategoryName = saleOrIncomeCategory.SaleOrIncomeCategoryName };
+                    return PartialView("_AddOrEdit", viewModel);
+                }
+
+                errorViewModel = ExceptionHelper.ExceptionErrorMessageForNullObject();
+            }
+            catch (Exception ex)
+            {
+                errorViewModel = ExceptionHelper.ExceptionErrorMessageFormat(ex);
+            }
+
+            return PartialView("_ErrorPopup", errorViewModel);
         }
 
         //
-        // POST: /SaleOrIncomeCategory/Edit/By ID
+        // POST: /SaleOrIncomeCategory/Save
 
         [HttpPost]
-        public ActionResult Edit(SaleOrIncomeCategory saleOrIncomeCategory)
+        public ActionResult Save(SaleOrIncomeCategoryViewModel saleOrIncomeCategoryViewModel)
         {
             try
             {
                 if (ModelState.IsValid)
                 {
-                    _db.Entry(saleOrIncomeCategory).State = EntityState.Modified;
+                    //add
+                    if (saleOrIncomeCategoryViewModel.SaleOrIncomeCategoryId == 0)
+                    {
+                        var model = new SaleOrIncomeCategory() { SaleOrIncomeCategoryId = saleOrIncomeCategoryViewModel.SaleOrIncomeCategoryId, SaleOrIncomeCategoryName = saleOrIncomeCategoryViewModel.SaleOrIncomeCategoryName };
+                        _db.SaleOrIncomeCategories.Add(model);
+                    }
+                    else //edit
+                    {
+                        SaleOrIncomeCategory saleOrIncomeCategory = _db.SaleOrIncomeCategories.Find(saleOrIncomeCategoryViewModel.SaleOrIncomeCategoryId);
+
+                        if (saleOrIncomeCategory != null)
+                        {
+
+                            saleOrIncomeCategory.SaleOrIncomeCategoryId = saleOrIncomeCategoryViewModel.SaleOrIncomeCategoryId;
+                            saleOrIncomeCategory.SaleOrIncomeCategoryName = saleOrIncomeCategoryViewModel.SaleOrIncomeCategoryName;
+                            _db.Entry(saleOrIncomeCategory).State = EntityState.Modified;
+
+                        }
+
+                        return Content(KendoUiHelper.GetKendoUiWindowAjaxSuccessMethod(Boolean.FalseString, MessageType.warn.ToString(), ExceptionHelper.ExceptionMessageForNullObject()));
+
+                    }
+
+
                     _db.SaveChanges();
 
-                    //return RedirectToAction("Index");
-                    return Content(Boolean.TrueString);
+                    return Content(KendoUiHelper.GetKendoUiWindowAjaxSuccessMethod(Boolean.TrueString, MessageType.success.ToString(), "Saved Successfully."));
                 }
 
-                //return View(saleOrIncomeCategory);
-                //return PartialView("_Edit", saleOrIncomeCategory);
-                return Content("Please review your form.");
+                return Content(KendoUiHelper.GetKendoUiWindowAjaxSuccessMethod(Boolean.TrueString, MessageType.success.ToString(), ExceptionHelper.ModelStateErrorFormat(ModelState)));
             }
             catch (Exception ex)
             {
-                return Content("Error Occured!");
+                return Content(KendoUiHelper.GetKendoUiWindowAjaxSuccessMethod(Boolean.TrueString, MessageType.success.ToString(), ExceptionHelper.ExceptionMessageFormat(ex)));
             }
-        }
-
-        //
-        // GET: /SaleOrIncomeCategory/Delete/By ID
-
-        public ActionResult Delete(int id)
-        {
-            SaleOrIncomeCategory saleOrIncomeCategory = _db.SaleOrIncomeCategories.Find(id);
-
-            //return View(saleOrIncomeCategory);
-            return PartialView("_Delete", saleOrIncomeCategory);
         }
 
         //
         // POST: /SaleOrIncomeCategory/Delete/By ID
-
-        [HttpPost, ActionName("Delete")]
-        public ActionResult DeleteConfirmed(int id)
+        [HttpPost]
+        public ActionResult Delete(int id)
         {
             try
             {
@@ -140,23 +154,44 @@ namespace RnD.KashPlugSample.Controllers
                     _db.SaleOrIncomeCategories.Remove(saleOrIncomeCategory);
                     _db.SaveChanges();
 
-                    //return RedirectToAction("Index");
-                    return Content(Boolean.TrueString);
+                    return Json(new { status = Boolean.FalseString, messageType = MessageType.success.ToString(), messageText = "Deleted Successfully." }, JsonRequestBehavior.AllowGet);
                 }
-                return Content("Please review your form.");
+
+                return Json(new { status = Boolean.FalseString, messageType = MessageType.warn.ToString(), messageText = ExceptionHelper.ExceptionMessageForNullObject() }, JsonRequestBehavior.AllowGet);
+
             }
             catch (Exception ex)
             {
-                return Content("Error Occured!");
+                return Json(new { status = Boolean.FalseString, messageType = MessageType.error.ToString(), messageText = ExceptionHelper.ExceptionMessageFormat(ex) }, JsonRequestBehavior.AllowGet);
             }
         }
 
         #endregion
+
+        #region Method
 
         protected override void Dispose(bool disposing)
         {
             _db.Dispose();
             base.Dispose(disposing);
         }
+
+        private List<SaleOrIncomeCategoryViewModel> GetSaleOrIncomeCategoryDataList()
+        {
+            var dataList = _db.SaleOrIncomeCategories.ToList().Select(c => new SaleOrIncomeCategory { SaleOrIncomeCategoryId = c.SaleOrIncomeCategoryId, SaleOrIncomeCategoryName = c.SaleOrIncomeCategoryName });
+
+            var viewModels = dataList.Select(
+                md => new SaleOrIncomeCategoryViewModel
+                {
+                    SaleOrIncomeCategoryId = md.SaleOrIncomeCategoryId,
+                    SaleOrIncomeCategoryName = md.SaleOrIncomeCategoryName,
+
+                    ActionLink = KendoUiHelper.KendoUIGridActionLinkGenerate(md.SaleOrIncomeCategoryId.ToString())
+                }).OrderBy(o => o.SaleOrIncomeCategoryName).ToList();
+
+            return viewModels;
+        }
+
+        #endregion
     }
 }

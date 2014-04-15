@@ -5,9 +5,9 @@ using System.Web;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel;
 
-namespace RnD.KashPlugSample.Models
+namespace RnD.KashPlugSample.ViewModels
 {
-    public class CostOrExpenseCategory
+    public class CostOrExpenseCategoryViewModel : BaseViewModel
     {
         [Key]
         public int CostOrExpenseCategoryId { get; set; }

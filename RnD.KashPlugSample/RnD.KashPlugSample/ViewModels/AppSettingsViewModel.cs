@@ -5,15 +5,15 @@ using System.Web;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel;
 
-namespace RnD.KashPlugSample.Models
+namespace RnD.KashPlugSample.ViewModels
 {
-    public class Currency
+    public class AppSettingsViewModel : BaseViewModel
     {
         [Key]
-        public int CurrencyId { get; set; }
+        public int AppSettingsId { get; set; }
         [DisplayName("Name: ")]
-        [Required(ErrorMessage = "Currency Name is required")]
+        [Required(ErrorMessage = "Name is required")]
         [MaxLength(200)]
-        public string CurrencyName { get; set; }
+        public string Name { get; set; }
     }
 }

@@ -7,13 +7,13 @@ using System.ComponentModel;
 
 namespace RnD.KashPlugSample.Models
 {
-    public class Currency
+    public class AppSettings
     {
         [Key]
-        public int CurrencyId { get; set; }
+        public int AppSettingsId { get; set; }
         [DisplayName("Name: ")]
-        [Required(ErrorMessage = "Currency Name is required")]
+        [Required(ErrorMessage = "Name is required")]
         [MaxLength(200)]
-        public string CurrencyName { get; set; }
+        public string Name { get; set; }
     }
 }

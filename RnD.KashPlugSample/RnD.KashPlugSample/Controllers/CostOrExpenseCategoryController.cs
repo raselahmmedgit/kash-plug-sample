@@ -3,14 +3,18 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
+using RnD.KashPlugSample.Helpers;
 using RnD.KashPlugSample.Models;
 using System.Data;
+using RnD.KashPlugSample.ViewModels;
 
 namespace RnD.KashPlugSample.Controllers
 {
     public class CostOrExpenseCategoryController : Controller
     {
         private AppDbContext _db = new AppDbContext();
+
+        #region Action
 
         //
         // GET: /CostOrExpenseCategory/
@@ -20,25 +24,38 @@ namespace RnD.KashPlugSample.Controllers
             return View();
         }
 
-        #region CRUD Action For Custom PopUp
+        public JsonResult CostOrExpenseCategoryRead(KendoUiGridParam request)
+        {
+            var costOrExpenseCategoryViewModels = GetCostOrExpenseCategoryDataList().AsQueryable();
+            var models = KendoUiHelper.ParseGridData<CostOrExpenseCategoryViewModel>(costOrExpenseCategoryViewModels, request);
+
+            return Json(models, JsonRequestBehavior.AllowGet);
+        }
 
         //
         // GET: /CostOrExpenseCategory/Details/By ID
 
         public ActionResult Details(int id)
         {
-            CostOrExpenseCategory costOrExpenseCategory = _db.CostOrExpenseCategories.Find(id);
-            //return View(costOrExpenseCategory);
-            return PartialView("_Details", costOrExpenseCategory);
-        }
+            var errorViewModel = new ErrorViewModel();
 
-        //
-        // GET: /CostOrExpenseCategory/Create
+            try
+            {
+                var costOrExpenseCategory = _db.CostOrExpenseCategories.Find(id);
+                if (costOrExpenseCategory != null)
+                {
+                    var viewModel = new CostOrExpenseCategoryViewModel() { CostOrExpenseCategoryId = costOrExpenseCategory.CostOrExpenseCategoryId, CostOrExpenseCategoryName = costOrExpenseCategory.CostOrExpenseCategoryName };
+                    return PartialView("_Details", viewModel);
+                }
 
-        public ActionResult Create()
-        {
-            //return View();
-            return PartialView("_Create");
+                errorViewModel = ExceptionHelper.ExceptionErrorMessageForNullObject();
+            }
+            catch (Exception ex)
+            {
+                errorViewModel = ExceptionHelper.ExceptionErrorMessageFormat(ex);
+            }
+
+            return PartialView("_ErrorPopup", errorViewModel);
         }
 
         //
@@ -46,35 +63,9 @@ namespace RnD.KashPlugSample.Controllers
 
         public ActionResult Add()
         {
+            var viewModel = new CostOrExpenseCategoryViewModel() { CostOrExpenseCategoryId = 0 };
             //return View();
-            return PartialView("_Add");
-        }
-
-        //
-        // POST: /CostOrExpenseCategory/Add
-
-        [HttpPost]
-        public ActionResult Add(CostOrExpenseCategory costOrExpenseCategory)
-        {
-            try
-            {
-                if (ModelState.IsValid)
-                {
-                    _db.CostOrExpenseCategories.Add(costOrExpenseCategory);
-                    _db.SaveChanges();
-
-                    //return RedirectToAction("Index");
-                    return Content(Boolean.TrueString);
-                }
-
-                //return View(costOrExpenseCategory);
-                //return PartialView("_Add", costOrExpenseCategory);
-                return Content("Please review your form.");
-            }
-            catch (Exception ex)
-            {
-                return Content("Error Occured!");
-            }
+            return PartialView("_AddOrEdit", viewModel);
         }
 
         //
@@ -82,55 +73,78 @@ namespace RnD.KashPlugSample.Controllers
 
         public ActionResult Edit(int id)
         {
-            CostOrExpenseCategory costOrExpenseCategory = _db.CostOrExpenseCategories.Find(id);
+            var errorViewModel = new ErrorViewModel();
 
-            //return View(costOrExpenseCategory);
-            return PartialView("_Edit", costOrExpenseCategory);
+            try
+            {
+                var costOrExpenseCategory = _db.CostOrExpenseCategories.Find(id);
+                if (costOrExpenseCategory != null)
+                {
+                    var viewModel = new CostOrExpenseCategoryViewModel() { CostOrExpenseCategoryId = costOrExpenseCategory.CostOrExpenseCategoryId, CostOrExpenseCategoryName = costOrExpenseCategory.CostOrExpenseCategoryName };
+                    return PartialView("_AddOrEdit", viewModel);
+                }
+
+                errorViewModel = ExceptionHelper.ExceptionErrorMessageForNullObject();
+            }
+            catch (Exception ex)
+            {
+                errorViewModel = ExceptionHelper.ExceptionErrorMessageFormat(ex);
+            }
+
+            return PartialView("_ErrorPopup", errorViewModel);
         }
 
         //
-        // POST: /CostOrExpenseCategory/Edit/By ID
+        // POST: /CostOrExpenseCategory/Save
 
         [HttpPost]
-        public ActionResult Edit(CostOrExpenseCategory costOrExpenseCategory)
+        public ActionResult Save(CostOrExpenseCategoryViewModel costOrExpenseCategoryViewModel)
         {
             try
             {
                 if (ModelState.IsValid)
                 {
-                    _db.Entry(costOrExpenseCategory).State = EntityState.Modified;
+                    //add
+                    if (costOrExpenseCategoryViewModel.CostOrExpenseCategoryId == 0)
+                    {
+                        var model = new CostOrExpenseCategory() { CostOrExpenseCategoryId = costOrExpenseCategoryViewModel.CostOrExpenseCategoryId, CostOrExpenseCategoryName = costOrExpenseCategoryViewModel.CostOrExpenseCategoryName };
+                        _db.CostOrExpenseCategories.Add(model);
+                    }
+                    else //edit
+                    {
+                        CostOrExpenseCategory costOrExpenseCategory = _db.CostOrExpenseCategories.Find(costOrExpenseCategoryViewModel.CostOrExpenseCategoryId);
+
+                        if (costOrExpenseCategory != null)
+                        {
+
+                            costOrExpenseCategory.CostOrExpenseCategoryId = costOrExpenseCategoryViewModel.CostOrExpenseCategoryId;
+                            costOrExpenseCategory.CostOrExpenseCategoryName = costOrExpenseCategoryViewModel.CostOrExpenseCategoryName;
+                            _db.Entry(costOrExpenseCategory).State = EntityState.Modified;
+
+                        }
+
+                        return Content(KendoUiHelper.GetKendoUiWindowAjaxSuccessMethod(Boolean.FalseString, MessageType.warn.ToString(), ExceptionHelper.ExceptionMessageForNullObject()));
+
+                    }
+
+
                     _db.SaveChanges();
 
-                    //return RedirectToAction("Index");
-                    return Content(Boolean.TrueString);
+                    return Content(KendoUiHelper.GetKendoUiWindowAjaxSuccessMethod(Boolean.TrueString, MessageType.success.ToString(), "Saved Successfully."));
                 }
 
-                //return View(costOrExpenseCategory);
-                //return PartialView("_Edit", costOrExpenseCategory);
-                return Content("Please review your form.");
+                return Content(KendoUiHelper.GetKendoUiWindowAjaxSuccessMethod(Boolean.TrueString, MessageType.success.ToString(), ExceptionHelper.ModelStateErrorFormat(ModelState)));
             }
             catch (Exception ex)
             {
-                return Content("Error Occured!");
+                return Content(KendoUiHelper.GetKendoUiWindowAjaxSuccessMethod(Boolean.TrueString, MessageType.success.ToString(), ExceptionHelper.ExceptionMessageFormat(ex)));
             }
-        }
-
-        //
-        // GET: /CostOrExpenseCategory/Delete/By ID
-
-        public ActionResult Delete(int id)
-        {
-            CostOrExpenseCategory costOrExpenseCategory = _db.CostOrExpenseCategories.Find(id);
-
-            //return View(costOrExpenseCategory);
-            return PartialView("_Delete", costOrExpenseCategory);
         }
 
         //
         // POST: /CostOrExpenseCategory/Delete/By ID
-
-        [HttpPost, ActionName("Delete")]
-        public ActionResult DeleteConfirmed(int id)
+        [HttpPost]
+        public ActionResult Delete(int id)
         {
             try
             {
@@ -140,24 +154,45 @@ namespace RnD.KashPlugSample.Controllers
                     _db.CostOrExpenseCategories.Remove(costOrExpenseCategory);
                     _db.SaveChanges();
 
-                    //return RedirectToAction("Index");
-                    return Content(Boolean.TrueString);
+                    return Json(new { status = Boolean.FalseString, messageType = MessageType.success.ToString(), messageText = "Deleted Successfully." }, JsonRequestBehavior.AllowGet);
                 }
-                return Content("Please review your form.");
+
+                return Json(new { status = Boolean.FalseString, messageType = MessageType.warn.ToString(), messageText = ExceptionHelper.ExceptionMessageForNullObject() }, JsonRequestBehavior.AllowGet);
+
             }
             catch (Exception ex)
             {
-                return Content("Error Occured!");
+                return Json(new { status = Boolean.FalseString, messageType = MessageType.error.ToString(), messageText = ExceptionHelper.ExceptionMessageFormat(ex) }, JsonRequestBehavior.AllowGet);
             }
         }
 
         #endregion
+
+        #region Method
 
         protected override void Dispose(bool disposing)
         {
             _db.Dispose();
             base.Dispose(disposing);
         }
+
+        private List<CostOrExpenseCategoryViewModel> GetCostOrExpenseCategoryDataList()
+        {
+            var dataList = _db.CostOrExpenseCategories.ToList().Select(c => new CostOrExpenseCategory { CostOrExpenseCategoryId = c.CostOrExpenseCategoryId, CostOrExpenseCategoryName = c.CostOrExpenseCategoryName });
+
+            var viewModels = dataList.Select(
+                md => new CostOrExpenseCategoryViewModel
+                {
+                    CostOrExpenseCategoryId = md.CostOrExpenseCategoryId,
+                    CostOrExpenseCategoryName = md.CostOrExpenseCategoryName,
+
+                    ActionLink = KendoUiHelper.KendoUIGridActionLinkGenerate(md.CostOrExpenseCategoryId.ToString())
+                }).OrderBy(o => o.CostOrExpenseCategoryName).ToList();
+
+            return viewModels;
+        }
+
+        #endregion
 
     }
 }

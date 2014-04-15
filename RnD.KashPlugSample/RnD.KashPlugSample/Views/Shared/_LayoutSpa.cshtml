@@ -55,37 +55,54 @@
     <div class="wrapper row-offcanvas row-offcanvas-left">
         <!-- Left side column. contains the logo and sidebar -->
         <aside class="left-side sidebar-offcanvas">
-                <!-- sidebar: style can be found in sidebar.less -->
-                <section class="sidebar">
-                    <!-- Sidebar user panel -->
-                    @Html.Partial("_UserSidebarPartial")
-                    <!-- sidebar menu: : style can be found in sidebar.less -->
-                    @Html.Partial("_MenuSidebarPartial")
-                </section>
-                <!-- /.sidebar -->
-            </aside>
+            <!-- sidebar: style can be found in sidebar.less -->
+            <section class="sidebar">
+                <!-- Sidebar user panel -->
+                @Html.Partial("_UserSidebarPartial")
+                <!-- sidebar menu: : style can be found in sidebar.less -->
+                @Html.Partial("_MenuSidebarPartial")
+            </section>
+            <!-- /.sidebar -->
+        </aside>
         <!-- Right side column. Contains the navbar and content of the page -->
         <aside class="right-side">
-                <!-- Content Header (Page header) -->
-                <section class="content-header">
-                    <h1>
-                        Dashboard
-                        <small>Control panel</small>
-                    </h1>
-                    <ol class="breadcrumb">
-                        <li><a href="#"><i class="fa fa-dashboard"></i> Home</a></li>
-                        <li class="active">Dashboard</li>
-                    </ol>
-                </section>
+            <!-- Content Header (Page header) -->
+            @Html.Partial("_BreadcrumbPartial")
+            
 
-                <!-- Main content -->
-                <section class="content">
+            <!-- Main content -->
+            <section class="content">
 
-                    @RenderBody()
+                @RenderBody()
 
-                </section><!-- /.content -->
-            </aside>
+            </section><!-- /.content -->
+        </aside>
         <!-- /.right-side -->
+    </div>
+    <div id="windowZone">
+        <div id="appCommonWindow">
+        </div>
+        <div id="appDeleteWindow">
+            <fieldset>
+                <div class="editor-field">
+                    <input type="hidden" name="hdDeleteId" id="hdDeleteId" value="" />
+                    <input type="hidden" name="hdDeletePostUrl" id="hdDeletePostUrl" value="" />
+                </div>
+                <div class="editor-field">
+                    <strong>Do you want to delete this?</strong>
+                </div>
+                <div class="editor-field">
+                    <input type="button" name="btnYesDelete" value="Yes" class="button" onclick="YesDelete()" />
+                    <input type="button" name="btnNoDelete" value="No" class="button" onclick="NoDelete()" />
+                </div>
+            </fieldset>
+        </div>
+        <div id="appMessageWindow">
+        </div>
+        <div id="appProgressWindow">
+            <div class="progess-bar">
+                <img src="../../Content/App/loading.gif" alt="" /></div>
+        </div>
     </div>
 </body>
 </html>

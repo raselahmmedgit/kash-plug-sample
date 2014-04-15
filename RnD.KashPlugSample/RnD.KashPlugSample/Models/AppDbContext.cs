@@ -14,6 +14,7 @@ namespace RnD.KashPlugSample.Models
         public DbSet<SaleOrIncomeCategory> SaleOrIncomeCategories { get; set; }
         public DbSet<CostOrExpense> CostOrExpenses { get; set; }
         public DbSet<CostOrExpenseCategory> CostOrExpenseCategories { get; set; }
+        public DbSet<AppSettings> AppSettings { get; set; }
 
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {

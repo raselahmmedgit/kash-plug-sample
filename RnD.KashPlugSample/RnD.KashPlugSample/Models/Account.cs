@@ -11,7 +11,7 @@ namespace RnD.KashPlugSample.Models
     {
         [Key]
         public int AccountId { get; set; }
-        [DisplayName("Account Name")]
+        [DisplayName("Name: ")]
         [Required(ErrorMessage = "Account Name is required")]
         [MaxLength(200)]
         public string AccountName { get; set; }

@@ -1,0 +1,85 @@
+﻿@model RnD.KashPlugSample.ViewModels.SaleOrIncomeViewModel
+@using (Ajax.BeginForm("Save", "SaleOrIncome", null,
+        new AjaxOptions
+        {
+            UpdateTargetId = "updateTargetId",
+            InsertionMode = InsertionMode.Replace,
+            HttpMethod = "POST",
+            OnBegin = "AppCommonWindowBegin",
+            OnSuccess = "AppCommonWindowSuccess",
+            OnComplete = "AppCommonWindowComplete",
+        }, new { @id = "appCommonWindowForm" }))
+{
+    <div id="addOrEditPage" class="addOrEditPage form-win col-xs-12">
+        <div class="row ">
+            <div id="updateTargetId" class="alert-warning " style="display: none">
+            </div>
+        </div>
+        <div class="row ">
+            @Html.HiddenFor(model => model.SaleOrIncomeId)
+            <div class="form-group">
+                @Html.LabelFor(model => model.UnitPrice)
+                @Html.TextBoxFor(model => model.UnitPrice)
+                @Html.ValidationMessageFor(model => model.UnitPrice)
+            </div>
+        </div>
+        <div class="row ">
+            <div class="form-group">
+                @Html.LabelFor(model => model.Quantity)
+                @Html.TextBoxFor(model => model.Quantity)
+                @Html.ValidationMessageFor(model => model.Quantity)
+            </div>
+        </div>
+        <div class="row ">
+            <div class="form-group">
+                @Html.LabelFor(model => model.ProcessCostRate)
+                @Html.TextBoxFor(model => model.ProcessCostRate)
+                @Html.ValidationMessageFor(model => model.ProcessCostRate)
+            </div>
+        </div>
+        <div class="row ">
+            <div class="form-group">
+                @Html.LabelFor(model => model.ExtraCostAmount)
+                @Html.TextBoxFor(model => model.ExtraCostAmount)
+                @Html.ValidationMessageFor(model => model.ExtraCostAmount)
+            </div>
+        </div>
+        <div class="row ">
+            <div class="form-group">
+                @Html.LabelFor(model => model.CreateDate)
+                @Html.TextBoxFor(model => model.CreateDate)
+                @Html.ValidationMessageFor(model => model.CreateDate)
+            </div>
+        </div>
+        <div class="row ">
+            <div class="form-group">
+                @Html.LabelFor(model => model.AccountId)
+                @Html.DropDownList("AccountId", Model.ddlAccounts)
+                @Html.ValidationMessageFor(model => model.AccountId)
+            </div>
+        </div>
+        <div class="row ">
+            <div class="form-group">
+                @Html.LabelFor(model => model.SaleOrIncomeCategoryId)
+                @Html.DropDownList("SaleOrIncomeCategoryId", Model.ddlSaleOrIncomeCategories)
+                @Html.ValidationMessageFor(model => model.ddlSaleOrIncomeCategories)
+            </div>
+        </div>
+        <div class="row ">
+            <div class="form-group">
+                @Html.LabelFor(model => model.Remarks)
+                @Html.TextAreaFor(model => model.Remarks)
+                @Html.ValidationMessageFor(model => model.Remarks)
+            </div>
+        </div>
+        <div class="row form-hr">
+            <div id="buttonZone" class="pull-right buttonZone">
+                <button type="submit" class="btn btn-success btn-sm btn-flat" id="btnSubmit" name="btnSubmit">
+                    <i class="fa fa-save"></i>&nbsp;&nbsp;Save</button>
+                <button type="button" class="btn btn-warning btn-sm btn-flat" id="btnCancel" name="btnCancel"
+                    onclick="CloseAppCommonWindow()">
+                    <i class="fa fa-times"></i>&nbsp;&nbsp;Cancel</button>
+            </div>
+        </div>
+    </div>
+}

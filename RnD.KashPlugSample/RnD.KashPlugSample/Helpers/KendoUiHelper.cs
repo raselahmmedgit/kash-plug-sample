@@ -9,6 +9,14 @@ namespace RnD.KashPlugSample.Helpers
 {
     public static class KendoUiHelper
     {
+        public static string GetKendoUiWindowAjaxSuccessMethod(string status, string messageType, string messageText)
+        {
+            string strReturn = string.Empty;
+
+            strReturn = status + "|" + messageType + "|" + messageText;
+
+            return strReturn;
+        }
 
         public static KendoUiGridResult<T> ParseGridData<T>(IQueryable<T> collection, KendoUiGridParam requestParam)
         {
@@ -118,19 +126,19 @@ namespace RnD.KashPlugSample.Helpers
             if (isDetailPermitted)
             {
                 //Details Link
-                strLink += @"<a class='lnkDetailCommon" + controllerName + " btn btn-minier btn-success' href='" + urlDetails + "' title='Details' ><i class='icon-search bigger-120'></i></a>&nbsp;&nbsp;";
+                strLink += @" <a class='lnkDetailCommon" + controllerName + " btn btn-success btn-sm btn-flat' href='" + urlDetails + "' title='Details' ><i class='fa fa-search'></i></a>&nbsp;&nbsp;";
             }
 
             if (isEditPermitted)
             {
                 //Edit Link
-                strLink += "<a class='lnkEditCommon" + controllerName + " btn btn-minier btn-info' href='" + urlEdit + "' title='Edit' ><i class='icon-edit bigger-120'></i></a>&nbsp;&nbsp;";
+                strLink += "<a class='lnkEditCommon" + controllerName + " btn btn-info btn-sm btn-flat' href='" + urlEdit + "' title='Edit' ><i class='fa fa-edit'></i></a>&nbsp;&nbsp;";
             }
 
             if (isDeletePermitted)
             {
                 //Delete Link
-                strLink += "<a class='lnkDeleteCommon" + controllerName + " btn btn-minier btn-danger' href='" + urlDelete + "' title='Delete' ><i class='icon-trash bigger-120'></i></a>";
+                strLink += "<a class='lnkDeleteCommon" + controllerName + " btn btn-danger btn-sm btn-flat' href='" + urlDelete + "' title='Delete' ><i class='fa fa-trash-o'></i></a>";
             }
 
             return strLink;
@@ -167,19 +175,70 @@ namespace RnD.KashPlugSample.Helpers
             if (isDetailPermitted)
             {
                 //Details Link
-                strLink += @"<a class='lnkDetailCommon" + controllerName + " btn btn-minier btn-success' href='" + urlDetails + "' title='Details' ><i class='icon-search bigger-120'></i></a>&nbsp;&nbsp;";
+                strLink += @" <a class='lnkDetailCommon" + controllerName + " btn btn-success btn-sm btn-flat' href='" + urlDetails + "' title='Details' ><i class='fa fa-search'></i></a>&nbsp;&nbsp;";
             }
 
             if (isEditPermitted)
             {
                 //Edit Link
-                strLink += "<a class='lnkEditCommon" + controllerName + " btn btn-minier btn-info' href='" + urlEdit + "' title='Edit' ><i class='icon-edit bigger-120'></i></a>&nbsp;&nbsp;";
+                strLink += "<a class='lnkEditCommon" + controllerName + " btn btn-info btn-sm btn-flat' href='" + urlEdit + "' title='Edit' ><i class='fa fa-edit'></i></a>&nbsp;&nbsp;";
             }
 
             if (isDeletePermitted)
             {
                 //Delete Link
-                strLink += "<a class='lnkDeleteCommon" + controllerName + " btn btn-minier btn-danger' href='" + urlDelete + "' title='Delete' ><i class='icon-trash bigger-120'></i></a>";
+                strLink += "<a class='lnkDeleteCommon" + controllerName + " btn btn-danger btn-sm btn-flat' href='" + urlDelete + "' title='Delete' ><i class='fa fa-trash-o'></i></a>";
+            }
+
+            return strLink;
+
+        }
+
+
+        /// <summary>
+        /// Kendo UI Grid Action Links Generate Method
+        /// Create By : Rasel Ahmmed Bappi
+        /// </summary>
+        /// <param name="id"></param>
+        /// <param name="isDetailPermitted"></param>
+        /// <param name="isEditPermitted"></param>
+        /// <param name="isDeletePermitted"></param>
+        /// <returns></returns>
+        public static string KendoUIGridActionLinkGenerate2(string id, bool isDetailPermitted = true, bool isEditPermitted = true, bool isDeletePermitted = true)
+        {
+            string strLink = string.Empty;
+
+            var httpContext = HttpContext.Current;
+            var httpContextBase = new HttpContextWrapper(httpContext);
+
+            string areaName = httpContextBase.Request.RequestContext.RouteData.DataTokens.ContainsKey("area") ? httpContextBase.Request.RequestContext.RouteData.DataTokens["area"].ToString() : "";
+            string controllerName = httpContextBase.Request.RequestContext.RouteData.Values["controller"].ToString();
+
+            string strDetailsContentUrl = "~/" + areaName + "/" + controllerName + "/Details/" + id;
+            string strEditContentUrl = "~/" + areaName + "/" + controllerName + "/Edit/" + id;
+            string strDeleteContentUrl = "~/" + areaName + "/" + controllerName + "/Delete/" + id;
+
+            string urlDetails = UrlHelper.GenerateContentUrl(strDetailsContentUrl, httpContextBase);
+            string urlEdit = UrlHelper.GenerateContentUrl(strEditContentUrl, httpContextBase);
+            string urlDelete = UrlHelper.GenerateContentUrl(strDeleteContentUrl, httpContextBase);
+
+            if (isDetailPermitted)
+            {
+                //Details Link
+                strLink += @" <a class='lnkDetailCommon" + controllerName + " btn btn-success btn-sm btn-flat' href='" + urlDetails + "' title='Details' ><i class='fa fa-search'></i></a>&nbsp;&nbsp;";
+                //strLink += String.Format(@" <a class='lnkDetailCommon{0} btn btn-success btn-sm btn-flat' href='{1}' title='Details' ><i class='fa fa-search'></i></a>&nbsp;&nbsp;", controllerName, urlDetails);
+            }
+
+            if (isEditPermitted)
+            {
+                //Edit Link
+                strLink += "<a class='lnkEditCommon" + controllerName + " btn btn-info btn-sm btn-flat' href='" + urlEdit + "' title='Edit' ><i class='fa fa-edit'></i></a>&nbsp;&nbsp;";
+            }
+
+            if (isDeletePermitted)
+            {
+                //Delete Link
+                strLink += "<a class='lnkDeleteCommon" + controllerName + " btn btn-danger btn-sm btn-flat' href='" + urlDelete + "' title='Delete' ><i class='fa fa-trash-o'></i></a>";
             }
 
             return strLink;

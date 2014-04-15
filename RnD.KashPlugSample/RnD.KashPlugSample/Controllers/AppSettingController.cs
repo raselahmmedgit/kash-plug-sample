@@ -10,30 +10,30 @@ using RnD.KashPlugSample.ViewModels;
 
 namespace RnD.KashPlugSample.Controllers
 {
-    public class AccountController : Controller
+    public class AppSettingController : Controller
     {
         private AppDbContext _db = new AppDbContext();
 
         #region Action
 
         //
-        // GET: /Account/
+        // GET: /AppSetting/
 
         public ActionResult Index()
         {
             return View();
         }
 
-        public JsonResult AccountRead(KendoUiGridParam request)
+        public JsonResult AppSettingRead(KendoUiGridParam request)
         {
-            var accountViewModels = GetAccountDataList().AsQueryable();
-            var models = KendoUiHelper.ParseGridData<AccountViewModel>(accountViewModels, request);
+            var appSettingsViewModels = GetAppSettingDataList().AsQueryable();
+            var models = KendoUiHelper.ParseGridData<AppSettingsViewModel>(appSettingsViewModels, request);
 
             return Json(models, JsonRequestBehavior.AllowGet);
         }
 
         //
-        // GET: /Account/Details/By ID
+        // GET: /AppSetting/Details/By ID
 
         public ActionResult Details(int id)
         {
@@ -41,10 +41,10 @@ namespace RnD.KashPlugSample.Controllers
 
             try
             {
-                var account = _db.Accounts.Find(id);
-                if (account != null)
+                var appSettings = _db.AppSettings.Find(id);
+                if (appSettings != null)
                 {
-                    var viewModel = new AccountViewModel() { AccountId = account.AccountId, AccountName = account.AccountName };
+                    var viewModel = new AppSettingsViewModel() { AppSettingsId = appSettings.AppSettingsId, Name = appSettings.Name };
                     return PartialView("_Details", viewModel);
                 }
 
@@ -59,17 +59,17 @@ namespace RnD.KashPlugSample.Controllers
         }
 
         //
-        // GET: /Account/Add
+        // GET: /AppSetting/Add
 
         public ActionResult Add()
         {
-            var viewModel = new AccountViewModel() { AccountId = 0 };
+            var viewModel = new AppSettingsViewModel() { AppSettingsId = 0 };
             //return View();
             return PartialView("_AddOrEdit", viewModel);
         }
 
         //
-        // GET: /Account/Edit/By ID
+        // GET: /AppSetting/Edit/By ID
 
         public ActionResult Edit(int id)
         {
@@ -77,10 +77,10 @@ namespace RnD.KashPlugSample.Controllers
 
             try
             {
-                var account = _db.Accounts.Find(id);
-                if (account != null)
+                var appSetting = _db.AppSettings.Find(id);
+                if (appSetting != null)
                 {
-                    var viewModel = new AccountViewModel() { AccountId = account.AccountId, AccountName = account.AccountName };
+                    var viewModel = new AppSettingsViewModel() { AppSettingsId = appSetting.AppSettingsId, Name = appSetting.Name };
                     return PartialView("_AddOrEdit", viewModel);
                 }
 
@@ -95,31 +95,31 @@ namespace RnD.KashPlugSample.Controllers
         }
 
         //
-        // POST: /Account/Save
+        // POST: /AppSetting/Save
 
         [HttpPost]
-        public ActionResult Save(AccountViewModel accountViewModel)
+        public ActionResult Save(AppSettingsViewModel appSettingsViewModel)
         {
             try
             {
                 if (ModelState.IsValid)
                 {
                     //add
-                    if (accountViewModel.AccountId == 0)
+                    if (appSettingsViewModel.AppSettingsId == 0)
                     {
-                        var model = new Account() { AccountId = accountViewModel.AccountId, AccountName = accountViewModel.AccountName };
-                        _db.Accounts.Add(model);
+                        var model = new AppSettings() { AppSettingsId = appSettingsViewModel.AppSettingsId, Name = appSettingsViewModel.Name };
+                        _db.AppSettings.Add(model);
                     }
                     else //edit
                     {
-                        Account account = _db.Accounts.Find(accountViewModel.AccountId);
+                        AppSettings appSettings = _db.AppSettings.Find(appSettingsViewModel.AppSettingsId);
 
-                        if (account != null)
+                        if (appSettings != null)
                         {
 
-                            account.AccountId = accountViewModel.AccountId;
-                            account.AccountName = accountViewModel.AccountName;
-                            _db.Entry(account).State = EntityState.Modified;
+                            appSettings.AppSettingsId = appSettingsViewModel.AppSettingsId;
+                            appSettings.Name = appSettingsViewModel.Name;
+                            _db.Entry(appSettings).State = EntityState.Modified;
 
                         }
 
@@ -142,16 +142,16 @@ namespace RnD.KashPlugSample.Controllers
         }
 
         //
-        // POST: /Account/Delete/By ID
+        // POST: /AppSetting/Delete/By ID
         [HttpPost]
         public ActionResult Delete(int id)
         {
             try
             {
-                Account account = _db.Accounts.Find(id);
-                if (account != null)
+                AppSettings appSettings = _db.AppSettings.Find(id);
+                if (appSettings != null)
                 {
-                    _db.Accounts.Remove(account);
+                    _db.AppSettings.Remove(appSettings);
                     _db.SaveChanges();
 
                     return Json(new { status = Boolean.FalseString, messageType = MessageType.success.ToString(), messageText = "Deleted Successfully." }, JsonRequestBehavior.AllowGet);
@@ -176,22 +176,23 @@ namespace RnD.KashPlugSample.Controllers
             base.Dispose(disposing);
         }
 
-        private List<AccountViewModel> GetAccountDataList()
+        private List<AppSettingsViewModel> GetAppSettingDataList()
         {
-            var dataList = _db.Accounts.ToList().Select(c => new Account { AccountId = c.AccountId, AccountName = c.AccountName });
+            var dataList = _db.AppSettings.ToList().Select(c => new AppSettings { AppSettingsId = c.AppSettingsId, Name = c.Name });
 
             var viewModels = dataList.Select(
-                md => new AccountViewModel
+                md => new AppSettingsViewModel
                 {
-                    AccountId = md.AccountId,
-                    AccountName = md.AccountName,
+                    AppSettingsId = md.AppSettingsId,
+                    Name = md.Name,
 
-                    ActionLink = KendoUiHelper.KendoUIGridActionLinkGenerate(md.AccountId.ToString())
-                }).OrderBy(o => o.AccountName).ToList();
+                    ActionLink = KendoUiHelper.KendoUIGridActionLinkGenerate(md.AppSettingsId.ToString())
+                }).OrderBy(o => o.Name).ToList();
 
             return viewModels;
         }
 
         #endregion
+
     }
 }
