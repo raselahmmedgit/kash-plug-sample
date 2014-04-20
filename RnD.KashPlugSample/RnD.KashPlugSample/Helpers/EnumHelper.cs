@@ -5,5 +5,5 @@ using System.Web;
 
 namespace RnD.KashPlugSample.Helpers
 {
-    public enum MessageType { info, warn, success, error }
+    public enum MessageType { info, warning, success, danger }
 }

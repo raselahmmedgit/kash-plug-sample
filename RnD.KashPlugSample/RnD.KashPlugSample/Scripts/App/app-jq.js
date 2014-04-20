@@ -84,6 +84,32 @@ function AjaxJsonPost(postUrl) {
 
 }
 
+function AjaxJsonPostForDelete(postUrl) {
+
+    $.ajax({
+        url: postUrl,
+        type: 'POST',
+        dataType: 'json',
+        contentType: 'application/json; charset=utf-8',
+        beforeSend: function () {
+            OpenAppProgressWindow();
+        },
+        success: function (result) {
+            var messageType = result.messageType;
+            var messageText = result.messageText;
+            LoadAppMessageWindow(messageType, messageText);
+            KendoGridRefreshInIndexPage();
+        },
+        error: function (objAjaxRequest, strError) {
+            var respText = objAjaxRequest.responseText;
+            var messageText = respText;
+            LoadErrorAppMessageWindowWithText(messageText);
+        }
+
+    });
+
+}
+
 function AjaxJsonPostWithParam(postUrl, paramValue) {
 
     $.ajax({
@@ -99,6 +125,33 @@ function AjaxJsonPostWithParam(postUrl, paramValue) {
             var messageType = result.messageType;
             var messageText = result.messageText;
             LoadAppMessageWindow(messageType, messageText);
+        },
+        error: function (objAjaxRequest, strError) {
+            var respText = objAjaxRequest.responseText;
+            var messageText = respText;
+            LoadErrorAppMessageWindowWithText(messageText);
+        }
+
+    });
+
+}
+
+function AjaxJsonPostForDeleteWithParam(postUrl, paramValue) {
+
+    $.ajax({
+        url: postUrl,
+        type: 'POST',
+        dataType: 'json',
+        data: paramValue,
+        contentType: 'application/json; charset=utf-8',
+        beforeSend: function () {
+            OpenAppProgressWindow();
+        },
+        success: function (result) {
+            var messageType = result.messageType;
+            var messageText = result.messageText;
+            LoadAppMessageWindow(messageType, messageText);
+            KendoGridRefreshInIndexPage();
         },
         error: function (objAjaxRequest, strError) {
             var respText = objAjaxRequest.responseText;
@@ -189,7 +242,7 @@ function LoadAddOrEditAppCommonWindow(viewUrl, windowTitle, windowForm) {
 
 };
 
-function LoadDetailsAppCommonWindow(viewUrl, windowTitle, windowForm) {
+function LoadDetailsAppCommonWindow(viewUrl, windowTitle) {
 
     TitleAppCommonWindow(windowTitle);
 
@@ -214,6 +267,21 @@ function LoadAppCommonWindow(viewUrl, windowTitle, windowForm) {
         ContentAppCommonWindow(data);
 
         AppCommonWindowFormValidation(windowForm);
+
+        //kendo ui window open
+        OpenAppCommonWindow();
+    });
+
+};
+
+function LoadAppCommonWindowWithoutForm(viewUrl, windowTitle) {
+
+    TitleAppCommonWindow(windowTitle);
+
+    $.get(viewUrl, function (data) {
+
+        //kendo ui window content
+        ContentAppCommonWindow(data);
 
         //kendo ui window open
         OpenAppCommonWindow();
@@ -299,7 +367,8 @@ function YesDelete() {
     var hdDeleteIdValue = $("#hdDeleteId").val().trim();
     var hdDeletePostUrlValue = $("#hdDeletePostUrl").val().trim();
 
-    AjaxJsonPost(hdDeletePostUrlValue);
+    //AjaxJsonPost(hdDeletePostUrlValue);
+    AjaxJsonPostForDelete(hdDeletePostUrlValue);
 
     //close kendo ui window
     CloseAppDeleteWindow();
@@ -434,7 +503,7 @@ function LoadErrorAppMessageWindowWithText(messageText) {
 
 function GetAppMessageWindowContent(messageType, messageText) {
 
-    var content = "<div class='" + messageType + "'><div>" + messageText + "</div></div>";
+    var content = "<div class='alert alert-" + messageType + "'><h4 style='margin-bottom: 0px !important;'>" + messageText + "</h4></div>";
 
     return content;
 
@@ -519,6 +588,8 @@ $(document).ready(function () {
         draggable: true,
         modal: true,
         resizable: false,
+        minHeight: 100,
+        minWidth: 350,
         pinned: true,
         position: { top: 100 },
         visible: false
@@ -529,6 +600,8 @@ $(document).ready(function () {
         draggable: true,
         modal: true,
         resizable: false,
+        minHeight: 100,
+        minWidth: 350,
         pinned: true,
         position: { top: 100 },
         visible: false
@@ -538,8 +611,8 @@ $(document).ready(function () {
         draggable: false,
         modal: true,
         resizable: false,
-        minHeight: 100,
-        minWidth: 300,
+        minHeight: 80,
+        minWidth: 350,
         visible: false
     });
 
@@ -570,6 +643,22 @@ $(document).ready(function () {
         var windowForm = "appCommonWindowForm";
 
         LoadAppCommonWindow(viewUrl, windowTitle, windowForm);
+
+        return false;
+
+    });
+    //-----------------------------------------------------
+
+    //-----------------------------------------------------
+    //detail Common
+    $('.lnkDetailCommon').live('click', function () {
+
+        //change the title of the dialog
+        var linkObj = $(this);
+        var viewUrl = linkObj.attr('href');
+        var windowTitle = linkObj.attr('title');
+
+        LoadAppCommonWindowWithoutForm(viewUrl, windowTitle);
 
         return false;
 

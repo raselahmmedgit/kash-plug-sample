@@ -83,19 +83,30 @@
         <div id="appCommonWindow">
         </div>
         <div id="appDeleteWindow">
-            <fieldset>
-                <div class="editor-field">
+            <div id="deletePage" class="deletePage form-win col-xs-12">
+                <div class="row">
                     <input type="hidden" name="hdDeleteId" id="hdDeleteId" value="" />
                     <input type="hidden" name="hdDeletePostUrl" id="hdDeletePostUrl" value="" />
                 </div>
-                <div class="editor-field">
-                    <strong>Do you want to delete this?</strong>
+                <div class="row">
+                    <div class="callout callout-warning">
+                        <h4>
+                            Warning!</h4>
+                        <p>
+                            Do you want to delete this?</p>
+                    </div>
                 </div>
-                <div class="editor-field">
-                    <input type="button" name="btnYesDelete" value="Yes" class="button" onclick="YesDelete()" />
-                    <input type="button" name="btnNoDelete" value="No" class="button" onclick="NoDelete()" />
+                <div class="row form-hr">
+                    <div id="buttonZone" class="pull-right buttonZone">
+                        <button type="button" class="btn btn-success btn-sm btn-flat" id="btnYesDelete" name="btnYesDelete"
+                            onclick="YesDelete()">
+                            <i class="fa fa-save"></i>&nbsp;&nbsp;Yes</button>
+                        <button type="button" class="btn btn-warning btn-sm btn-flat" id="btnNoDelete" name="btnNoDelete"
+                            onclick="NoDelete()">
+                            <i class="fa fa-times"></i>&nbsp;&nbsp;No</button>
+                    </div>
                 </div>
-            </fieldset>
+            </div>
         </div>
         <div id="appMessageWindow">
         </div>

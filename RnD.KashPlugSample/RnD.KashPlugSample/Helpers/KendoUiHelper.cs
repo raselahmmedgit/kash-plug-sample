@@ -126,19 +126,19 @@ namespace RnD.KashPlugSample.Helpers
             if (isDetailPermitted)
             {
                 //Details Link
-                strLink += @" <a class='lnkDetailCommon" + controllerName + " btn btn-success btn-sm btn-flat' href='" + urlDetails + "' title='Details' ><i class='fa fa-search'></i></a>&nbsp;&nbsp;";
+                strLink += @" <a class='lnkDetailCommon btn btn-success btn-sm btn-flat' href='" + urlDetails + "' title='Details' ><i class='fa fa-search'></i></a>&nbsp;";
             }
 
             if (isEditPermitted)
             {
                 //Edit Link
-                strLink += "<a class='lnkEditCommon" + controllerName + " btn btn-info btn-sm btn-flat' href='" + urlEdit + "' title='Edit' ><i class='fa fa-edit'></i></a>&nbsp;&nbsp;";
+                strLink += @" <a class='lnkEditCommon btn btn-info btn-sm btn-flat' href='" + urlEdit + "' title='Edit' ><i class='fa fa-edit'></i></a>&nbsp;";
             }
 
             if (isDeletePermitted)
             {
                 //Delete Link
-                strLink += "<a class='lnkDeleteCommon" + controllerName + " btn btn-danger btn-sm btn-flat' href='" + urlDelete + "' title='Delete' ><i class='fa fa-trash-o'></i></a>";
+                strLink += @" <a class='lnkDeleteCommon btn btn-danger btn-sm btn-flat' href='" + urlDelete + "' title='Delete' ><i class='fa fa-trash-o'></i></a>";
             }
 
             return strLink;
@@ -175,19 +175,19 @@ namespace RnD.KashPlugSample.Helpers
             if (isDetailPermitted)
             {
                 //Details Link
-                strLink += @" <a class='lnkDetailCommon" + controllerName + " btn btn-success btn-sm btn-flat' href='" + urlDetails + "' title='Details' ><i class='fa fa-search'></i></a>&nbsp;&nbsp;";
+                strLink += @" <a class='lnkDetailCommon btn btn-success btn-sm btn-flat' href='" + urlDetails + "' title='Details' ><i class='fa fa-search'></i></a>&nbsp;";
             }
 
             if (isEditPermitted)
             {
                 //Edit Link
-                strLink += "<a class='lnkEditCommon" + controllerName + " btn btn-info btn-sm btn-flat' href='" + urlEdit + "' title='Edit' ><i class='fa fa-edit'></i></a>&nbsp;&nbsp;";
+                strLink += @" <a class='lnkEditCommon btn btn-info btn-sm btn-flat' href='" + urlEdit + "' title='Edit' ><i class='fa fa-edit'></i></a>&nbsp;";
             }
 
             if (isDeletePermitted)
             {
                 //Delete Link
-                strLink += "<a class='lnkDeleteCommon" + controllerName + " btn btn-danger btn-sm btn-flat' href='" + urlDelete + "' title='Delete' ><i class='fa fa-trash-o'></i></a>";
+                strLink += @" <a class='lnkDeleteCommon btn btn-danger btn-sm btn-flat' href='" + urlDelete + "' title='Delete' ><i class='fa fa-trash-o'></i></a>";
             }
 
             return strLink;
@@ -225,20 +225,19 @@ namespace RnD.KashPlugSample.Helpers
             if (isDetailPermitted)
             {
                 //Details Link
-                strLink += @" <a class='lnkDetailCommon" + controllerName + " btn btn-success btn-sm btn-flat' href='" + urlDetails + "' title='Details' ><i class='fa fa-search'></i></a>&nbsp;&nbsp;";
-                //strLink += String.Format(@" <a class='lnkDetailCommon{0} btn btn-success btn-sm btn-flat' href='{1}' title='Details' ><i class='fa fa-search'></i></a>&nbsp;&nbsp;", controllerName, urlDetails);
+                strLink += @" <a class='lnkDetailCommon btn btn-success btn-sm btn-flat' href='" + urlDetails + "' title='Details' ><i class='fa fa-search'></i></a>&nbsp;";
             }
 
             if (isEditPermitted)
             {
                 //Edit Link
-                strLink += "<a class='lnkEditCommon" + controllerName + " btn btn-info btn-sm btn-flat' href='" + urlEdit + "' title='Edit' ><i class='fa fa-edit'></i></a>&nbsp;&nbsp;";
+                strLink += @" <a class='lnkEditCommon btn btn-info btn-sm btn-flat' href='" + urlEdit + "' title='Edit' ><i class='fa fa-edit'></i></a>&nbsp;";
             }
 
             if (isDeletePermitted)
             {
                 //Delete Link
-                strLink += "<a class='lnkDeleteCommon" + controllerName + " btn btn-danger btn-sm btn-flat' href='" + urlDelete + "' title='Delete' ><i class='fa fa-trash-o'></i></a>";
+                strLink += @" <a class='lnkDeleteCommon btn btn-danger btn-sm btn-flat' href='" + urlDelete + "' title='Delete' ><i class='fa fa-trash-o'></i></a>";
             }
 
             return strLink;
@@ -270,7 +269,7 @@ namespace RnD.KashPlugSample.Helpers
 
                 this.Page = Convert.ToInt32(curRequest["page"]) == 0 ? 1 : Convert.ToInt32(curRequest["page"]);
                 this.PageSize = Convert.ToInt32(curRequest["pageSize"]) == 0 ? 10 : Convert.ToInt32(curRequest["pageSize"]);
-                this.Skip = Convert.ToInt32(curRequest["skip"]) == 0 ? 1 : Convert.ToInt32(curRequest["skip"]);
+                this.Skip = Convert.ToInt32(curRequest["skip"]) == 0 ? 0 : Convert.ToInt32(curRequest["skip"]);
                 this.Take = Convert.ToInt32(curRequest["take"]) == 0 ? 10 : Convert.ToInt32(curRequest["take"]);
 
                 this.SortOrd = curRequest["sort[0][dir]"];

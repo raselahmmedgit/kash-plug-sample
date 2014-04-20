@@ -57,7 +57,7 @@
                             Quantity: { type: "number" },
                             ProcessCostRate: { type: "number" },
                             ExtraCostAmount: { type: "number" },
-                            CreateDate: { type: "string" },
+                            CreateDate: { type: "date" },
                             AccountId: { type: "number" },
                             AccountName: { type: "string" },
                             SaleOrIncomeCategoryId: { type: "number" },
@@ -90,13 +90,13 @@
                   { field: "Quantity", title: "Quantity" },
                   { field: "ProcessCostRate", title: "Process Cost Rate" },
                   { field: "ExtraCostAmount", title: "Extra Cost Amount" },
-                  { field: "CreateDate", title: "Create Date" },
+                  { field: "CreateDate", title: "Create Date", template: '#= CreateDate == null ? "" : kendo.toString(CreateDate,"dd/MM/yyyy") #' },
                   { field: "AccountId", title: "AccountId", hidden: true, filterable: false, sortable: false },
                   { field: "AccountName", title: "Account" },
                   { field: "SaleOrIncomeCategoryId", title: "SaleOrIncomeCategoryId", hidden: true, filterable: false, sortable: false },
                   { field: "SaleOrIncomeCategoryName", title: "Sale/Income Category" },
                   { field: "Remarks", title: "Remarks" },
-                  { field: "ActionLink", title: "Actions", width: "15%", filterable: false, sortable: false }
+                  { field: "ActionLink", title: "Actions", width: "12%", filterable: false, sortable: false, template: "#= ActionLink #" }
         ]
         });
         //end of kendo grid

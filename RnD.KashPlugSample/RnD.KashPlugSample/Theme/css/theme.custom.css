@@ -122,3 +122,18 @@
     margin-top: 10px !important;
     margin-left: 10px !important;
 }
+
+.callout
+{
+    margin: 0 0 10px !important;
+    padding: 5px 10px 5px !important;
+}
+
+.alert
+{
+    padding: 5px !important;
+    margin-left: 0 !important;
+    margin-bottom: 0 !important;
+    -ms-border-radius: 0 !important;
+    border-radius: 0 !important;
+}
