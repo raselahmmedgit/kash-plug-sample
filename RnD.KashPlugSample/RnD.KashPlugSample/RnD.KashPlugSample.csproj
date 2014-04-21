@@ -1346,6 +1346,10 @@
     <Content Include="Views\SaleOrIncome\_AddOrEdit.cshtml" />
     <Content Include="Views\SaleOrIncome\_Details.cshtml" />
     <Content Include="Views\SaleOrIncome\Index.cshtml" />
+    <Content Include="Views\Home\LogIn.cshtml" />
+    <Content Include="Views\Home\Register.cshtml" />
+    <Content Include="Views\Shared\_LayoutLogIn.cshtml" />
+    <Content Include="Views\Home\ForgotPassword.cshtml" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <Import Project="$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v10.0\WebApplications\Microsoft.WebApplication.targets" />

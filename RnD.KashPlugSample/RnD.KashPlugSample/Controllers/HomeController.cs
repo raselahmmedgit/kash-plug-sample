@@ -13,8 +13,20 @@ namespace RnD.KashPlugSample.Controllers
             return View();
         }
 
-        //LogOut
-        public ActionResult LogOut()
+        //LogIn
+        public ActionResult LogIn()
+        {
+            return View();
+        }
+
+        //Register
+        public ActionResult Register()
+        {
+            return View();
+        }
+
+        //ForgotPassword
+        public ActionResult ForgotPassword()
         {
             return View();
         }
