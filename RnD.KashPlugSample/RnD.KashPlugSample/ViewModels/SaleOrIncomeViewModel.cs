@@ -16,13 +16,15 @@ namespace RnD.KashPlugSample.ViewModels
 
         [DisplayName("Unit Price")]
         [Required(ErrorMessage = "Unit Price is required.")]
+        [Range(1, long.MaxValue, ErrorMessage = "Unit Price could not less then 1.")]
         public decimal UnitPrice { get; set; }
 
         [DisplayName("Quantity")]
         [Required(ErrorMessage = "Quantity is required.")]
+        [Range(1, long.MaxValue, ErrorMessage = "Quantity could not less then 1.")]
         public int Quantity { get; set; }
 
-        [DisplayName("Processing Cost Rate")]
+        [DisplayName("Processing Cost")]
         public decimal ProcessCostRate { get; set; }
 
         [DisplayName("Extra Cost Amount")]
@@ -36,6 +38,7 @@ namespace RnD.KashPlugSample.ViewModels
 
         [DisplayName("Account")]
         [Required(ErrorMessage = "Select Account.")]
+        [Range(1, long.MaxValue, ErrorMessage = "Select Account.")]
         public int AccountId { get; set; }
         [DisplayName("Account Name")]
         public string AccountName { get; set; }
@@ -45,6 +48,7 @@ namespace RnD.KashPlugSample.ViewModels
 
         [DisplayName("Product/Goods")]
         [Required(ErrorMessage = "Select Product/Goods Category.")]
+        [Range(1, long.MaxValue, ErrorMessage = "Select Product/Goods Category.")]
         public int SaleOrIncomeCategoryId { get; set; }
         [DisplayName("Product/Goods Category Name")]
         public string SaleOrIncomeCategoryName { get; set; }

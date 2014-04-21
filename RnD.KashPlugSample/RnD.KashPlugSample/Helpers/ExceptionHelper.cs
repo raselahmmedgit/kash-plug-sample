@@ -106,7 +106,7 @@ namespace RnD.KashPlugSample.Helpers
 
         public static string ModelStateErrorFormat(System.Web.Mvc.ModelStateDictionary modelStateDictionary)
         {
-            string message = @"<div class='mess'>";
+            string message = @"<div class='form-win-message'>";
 
             foreach (var modelStateValues in modelStateDictionary.Values)
             {
@@ -114,9 +114,9 @@ namespace RnD.KashPlugSample.Helpers
                 {
                     foreach (var modelError in modelStateValues.Errors)
                     {
-                        message += "<p>";
+                        message += "<span>";
                         message += modelError.ErrorMessage;
-                        message += "</p>";
+                        message += "</span>";
                     }
                 }
             }

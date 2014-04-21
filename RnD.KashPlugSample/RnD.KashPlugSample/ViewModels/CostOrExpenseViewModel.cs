@@ -16,6 +16,7 @@ namespace RnD.KashPlugSample.ViewModels
 
         [DisplayName("Amount")]
         [Required(ErrorMessage = "Amount is required.")]
+        [Range(1, long.MaxValue, ErrorMessage = "Amount could not less then 1.")]
         public decimal Amount { get; set; }
 
         [DisplayName("Create Date")]
@@ -26,6 +27,7 @@ namespace RnD.KashPlugSample.ViewModels
 
         [DisplayName("Account")]
         [Required(ErrorMessage = "Select Account.")]
+        [Range(1, long.MaxValue, ErrorMessage = "Select Account.")]
         public int AccountId { get; set; }
         [DisplayName("Account Name")]
         public string AccountName { get; set; }
@@ -35,6 +37,7 @@ namespace RnD.KashPlugSample.ViewModels
 
         [DisplayName("Cost/Expense")]
         [Required(ErrorMessage = "Select Cost/Expense Category.")]
+        [Range(1, long.MaxValue, ErrorMessage = "Select Cost/Expense Category.")]
         public int CostOrExpenseCategoryId { get; set; }
         [DisplayName("Cost/Expense Category Name")]
         public string CostOrExpenseCategoryName { get; set; }

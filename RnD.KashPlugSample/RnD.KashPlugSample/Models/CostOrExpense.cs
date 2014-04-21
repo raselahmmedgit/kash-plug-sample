@@ -15,6 +15,7 @@ namespace RnD.KashPlugSample.Models
 
         [DisplayName("Amount")]
         [Required(ErrorMessage = "Amount is required.")]
+        [Range(1, long.MaxValue, ErrorMessage = "Amount could not less then 1.")]
         public decimal Amount { get; set; }
 
         [DisplayName("Create Date")]
@@ -23,11 +24,14 @@ namespace RnD.KashPlugSample.Models
         [DisplayName("Remarks")]
         public string Remarks { get; set; }
 
+        [Required(ErrorMessage = "Select Account.")]
+        [Range(1, long.MaxValue, ErrorMessage = "Select Account.")]
         public int AccountId { get; set; }
         [ForeignKey("AccountId")]
         public virtual Account Account { get; set; }
 
         [Required(ErrorMessage = "Select Cost/Expense Category.")]
+        [Range(1, long.MaxValue, ErrorMessage = "Select Cost/Expense Category.")]
         public int CostOrExpenseCategoryId { get; set; }
         [ForeignKey("CostOrExpenseCategoryId")]
         public virtual CostOrExpenseCategory CostOrExpenseCategory { get; set; }

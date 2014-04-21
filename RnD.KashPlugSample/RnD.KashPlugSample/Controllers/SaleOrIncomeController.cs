@@ -70,6 +70,8 @@ namespace RnD.KashPlugSample.Controllers
             var saleOrIncomeCategoryList = SelectListItemExtension.PopulateDropdownList(_db.SaleOrIncomeCategories.ToList<SaleOrIncomeCategory>(), "SaleOrIncomeCategoryId", "SaleOrIncomeCategoryName").ToList();
 
             viewModel.SaleOrIncomeCategoryId = 0;
+            viewModel.UnitPrice = 0;
+            viewModel.Quantity = 1;
             viewModel.CreateDate = DateTime.Now;
             viewModel.ddlAccounts = accountList;
             viewModel.ddlSaleOrIncomeCategories = saleOrIncomeCategoryList;
@@ -200,7 +202,7 @@ namespace RnD.KashPlugSample.Controllers
 
         private List<SaleOrIncomeViewModel> GetSaleOrIncomeDataList()
         {
-            var dataList = _db.SaleOrIncomes.ToList().Select(c => new SaleOrIncome { SaleOrIncomeId = c.SaleOrIncomeId, UnitPrice = c.UnitPrice, Quantity = c.Quantity, ProcessCostRate = c.ProcessCostRate, ExtraCostAmount = c.ExtraCostAmount, CreateDate = c.CreateDate, Remarks = c.Remarks, AccountId = c.AccountId, SaleOrIncomeCategoryId = c.SaleOrIncomeCategoryId });
+            var dataList = _db.SaleOrIncomes.ToList().Select(c => new SaleOrIncome { SaleOrIncomeId = c.SaleOrIncomeId, UnitPrice = c.UnitPrice, Quantity = c.Quantity, ProcessCostRate = c.ProcessCostRate, ExtraCostAmount = c.ExtraCostAmount, CreateDate = c.CreateDate, Remarks = c.Remarks, AccountId = c.AccountId, Account = c.Account, SaleOrIncomeCategoryId = c.SaleOrIncomeCategoryId, SaleOrIncomeCategory = c.SaleOrIncomeCategory });
 
             var viewModels = dataList.Select(
                 md => new SaleOrIncomeViewModel

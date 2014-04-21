@@ -74,8 +74,10 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
+    <Compile Include="Helpers\ControllerExtension.cs" />
     <Compile Include="Helpers\EnumHelper.cs" />
     <Compile Include="Helpers\ExceptionHelper.cs" />
+    <Compile Include="Helpers\HtmlHelperExtension.cs" />
     <Compile Include="Helpers\KendoUiHelper.cs" />
     <Compile Include="Helpers\SelectListItemExtension.cs" />
     <Compile Include="Models\Account.cs" />
@@ -93,6 +95,7 @@
     <Compile Include="ViewModels\CostOrExpenseCategoryViewModel.cs" />
     <Compile Include="ViewModels\CostOrExpenseViewModel.cs" />
     <Compile Include="ViewModels\CurrencyViewModel.cs" />
+    <Compile Include="ViewModels\DashboardViewModels.cs" />
     <Compile Include="ViewModels\ErrorViewModel.cs" />
     <Compile Include="ViewModels\SaleOrIncomeCategoryViewModel.cs" />
     <Compile Include="ViewModels\SaleOrIncomeViewModel.cs" />
@@ -312,6 +315,7 @@
     <Content Include="Global.asax" />
     <Content Include="README.jQuery.vsdoc.txt" />
     <Content Include="Scripts\App\app-jq.js" />
+    <Content Include="Scripts\App\dashboard-jq.js" />
     <Content Include="Scripts\backbone.js" />
     <Content Include="Scripts\backbone.min.js" />
     <Content Include="Scripts\bootstrap.js" />

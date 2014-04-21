@@ -59,6 +59,13 @@
 {
 }
 
+.form-win-message span
+{
+    padding: 0px !important;
+    margin: 0px !important;
+    display: inline-block !important;
+}
+
 /*kendo ui style
 ---------------------------------------------------------------------
 */
@@ -144,7 +151,8 @@
     border-radius: 0 !important;
 }
 
- .k-datepicker, .k-timepicker, .k-datetimepicker, .k-colorpicker, .k-numerictextbox {
+.k-datepicker, .k-timepicker, .k-datetimepicker, .k-colorpicker, .k-numerictextbox
+{
     width: 70% !important;
 }
 

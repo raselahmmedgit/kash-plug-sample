@@ -15,13 +15,15 @@ namespace RnD.KashPlugSample.Models
 
         [DisplayName("Unit Price")]
         [Required(ErrorMessage = "Unit Price is required.")]
+        [Range(1, long.MaxValue, ErrorMessage = "Unit Price could not less then 1.")]
         public decimal UnitPrice { get; set; }
 
         [DisplayName("Quantity")]
         [Required(ErrorMessage = "Quantity is required.")]
+        [Range(1, long.MaxValue, ErrorMessage = "Quantity could not less then 1.")]
         public int Quantity { get; set; }
 
-        [DisplayName("Processing Cost Rate")]
+        [DisplayName("Processing Cost")]
         public decimal ProcessCostRate { get; set; }
 
         [DisplayName("Extra Cost Amount")]
@@ -33,11 +35,14 @@ namespace RnD.KashPlugSample.Models
         [DisplayName("Remarks")]
         public string Remarks { get; set; }
 
+        [Required(ErrorMessage = "Select Account.")]
+        [Range(1, long.MaxValue, ErrorMessage = "Select Account.")]
         public int AccountId { get; set; }
         [ForeignKey("AccountId")]
         public virtual Account Account { get; set; }
 
         [Required(ErrorMessage = "Select Product/Goods Category.")]
+        [Range(1, long.MaxValue, ErrorMessage = "Select Product/Goods Category.")]
         public int SaleOrIncomeCategoryId { get; set; }
         [ForeignKey("SaleOrIncomeCategoryId")]
         public virtual SaleOrIncomeCategory SaleOrIncomeCategory { get; set; }

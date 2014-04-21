@@ -196,7 +196,7 @@ namespace RnD.KashPlugSample.Controllers
 
         private List<CostOrExpenseViewModel> GetCostOrExpenseDataList()
         {
-            var dataList = _db.CostOrExpenses.ToList().Select(c => new CostOrExpense { CostOrExpenseId = c.CostOrExpenseId, Amount = c.Amount, CreateDate = c.CreateDate, Remarks = c.Remarks, AccountId = c.AccountId, CostOrExpenseCategoryId = c.CostOrExpenseCategoryId });
+            var dataList = _db.CostOrExpenses.ToList().Select(c => new CostOrExpense { CostOrExpenseId = c.CostOrExpenseId, Amount = c.Amount, CreateDate = c.CreateDate, Remarks = c.Remarks, AccountId = c.AccountId, Account = c.Account, CostOrExpenseCategoryId = c.CostOrExpenseCategoryId, CostOrExpenseCategory = c.CostOrExpenseCategory });
 
             var viewModels = dataList.Select(
                 md => new CostOrExpenseViewModel
