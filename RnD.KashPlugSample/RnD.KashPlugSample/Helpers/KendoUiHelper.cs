@@ -126,13 +126,13 @@ namespace RnD.KashPlugSample.Helpers
             if (isDetailPermitted)
             {
                 //Details Link
-                strLink += @" <a class='lnkDetailCommon btn btn-success btn-sm btn-flat' href='" + urlDetails + "' title='Details' ><i class='fa fa-search'></i></a>&nbsp;";
+                strLink += @" <a class='lnkDetailCommon btn btn-success btn-sm btn-flat' href='" + urlDetails + "' title='Details' ><i class='fa fa-search'></i></a>";
             }
 
             if (isEditPermitted)
             {
                 //Edit Link
-                strLink += @" <a class='lnkEditCommon btn btn-info btn-sm btn-flat' href='" + urlEdit + "' title='Edit' ><i class='fa fa-edit'></i></a>&nbsp;";
+                strLink += @" <a class='lnkEditCommon btn btn-info btn-sm btn-flat' href='" + urlEdit + "' title='Edit' ><i class='fa fa-edit'></i></a>";
             }
 
             if (isDeletePermitted)
@@ -175,13 +175,13 @@ namespace RnD.KashPlugSample.Helpers
             if (isDetailPermitted)
             {
                 //Details Link
-                strLink += @" <a class='lnkDetailCommon btn btn-success btn-sm btn-flat' href='" + urlDetails + "' title='Details' ><i class='fa fa-search'></i></a>&nbsp;";
+                strLink += @" <a class='lnkDetailCommon btn btn-success btn-sm btn-flat' href='" + urlDetails + "' title='Details' ><i class='fa fa-search'></i></a>";
             }
 
             if (isEditPermitted)
             {
                 //Edit Link
-                strLink += @" <a class='lnkEditCommon btn btn-info btn-sm btn-flat' href='" + urlEdit + "' title='Edit' ><i class='fa fa-edit'></i></a>&nbsp;";
+                strLink += @" <a class='lnkEditCommon btn btn-info btn-sm btn-flat' href='" + urlEdit + "' title='Edit' ><i class='fa fa-edit'></i></a>";
             }
 
             if (isDeletePermitted)
@@ -189,7 +189,6 @@ namespace RnD.KashPlugSample.Helpers
                 //Delete Link
                 strLink += @" <a class='lnkDeleteCommon btn btn-danger btn-sm btn-flat' href='" + urlDelete + "' title='Delete' ><i class='fa fa-trash-o'></i></a>";
             }
-
             return strLink;
 
         }
@@ -225,13 +224,13 @@ namespace RnD.KashPlugSample.Helpers
             if (isDetailPermitted)
             {
                 //Details Link
-                strLink += @" <a class='lnkDetailCommon btn btn-success btn-sm btn-flat' href='" + urlDetails + "' title='Details' ><i class='fa fa-search'></i></a>&nbsp;";
+                strLink += @" <a class='lnkDetailCommon btn btn-success btn-sm btn-flat' href='" + urlDetails + "' title='Details' ><i class='fa fa-search'></i></a>";
             }
 
             if (isEditPermitted)
             {
                 //Edit Link
-                strLink += @" <a class='lnkEditCommon btn btn-info btn-sm btn-flat' href='" + urlEdit + "' title='Edit' ><i class='fa fa-edit'></i></a>&nbsp;";
+                strLink += @" <a class='lnkEditCommon btn btn-info btn-sm btn-flat' href='" + urlEdit + "' title='Edit' ><i class='fa fa-edit'></i></a>";
             }
 
             if (isDeletePermitted)
@@ -239,7 +238,6 @@ namespace RnD.KashPlugSample.Helpers
                 //Delete Link
                 strLink += @" <a class='lnkDeleteCommon btn btn-danger btn-sm btn-flat' href='" + urlDelete + "' title='Delete' ><i class='fa fa-trash-o'></i></a>";
             }
-
             return strLink;
 
         }

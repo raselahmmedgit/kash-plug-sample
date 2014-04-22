@@ -151,7 +151,7 @@ function AjaxJsonPostForDeleteWithParam(postUrl, paramValue) {
             var messageType = result.messageType;
             var messageText = result.messageText;
             LoadAppMessageWindow(messageType, messageText);
-            KendoGridRefreshInIndexPage();
+            KendoGridRefreshInIndexPage(); //Have to add index page
         },
         error: function (objAjaxRequest, strError) {
             var respText = objAjaxRequest.responseText;
@@ -197,7 +197,7 @@ function AppCommonWindowSuccess() {
 
         LoadAppMessageWindowForAjaxSuccess(messageTypeValue, messageTextValue);
 
-        KendoGridRefreshInIndexPage();
+        KendoGridRefreshInIndexPage(); //Have to add index page
     }
     else {
 
@@ -503,7 +503,7 @@ function LoadErrorAppMessageWindowWithText(messageText) {
 
 function GetAppMessageWindowContent(messageType, messageText) {
 
-    var content = "<div class='alert alert-" + messageType + "'><h4 style='margin-bottom: 0px !important;'>" + messageText + "</h4></div>";
+    var content = "<div id='messagePage' class='deletePage form-win col-xs-12'><div class='row'> <div style='margin-bottom: 10px !important;' class='alert alert-" + messageType + "'><h4 style='margin-bottom: 0px !important;'>" + messageText + "</h4></div> </div><div class='row form-hr'><div id='buttonZone' class='pull-right buttonZone'><button type='button' class='btn btn-success btn-sm btn-flat' id='btnOkMessage' name='btnOkMessage' onclick='OkMessage()'><i class='fa fa-save'></i>&nbsp;&nbsp;Ok</button></div></div></div>";
 
     return content;
 
@@ -537,6 +537,13 @@ function CloseAppMessageWindow() {
 
     //open kendo ui window
     $("#appMessageWindow").data("kendoWindow").close();
+
+}
+
+function OkMessage() {
+
+    //close kendo ui window
+    CloseAppMessageWindow();
 
 }
 

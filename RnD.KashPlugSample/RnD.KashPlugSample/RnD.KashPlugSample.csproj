@@ -65,6 +65,7 @@
   <ItemGroup>
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\AppSettingController.cs" />
+    <Compile Include="Controllers\ChartController.cs" />
     <Compile Include="Controllers\CostOrExpenseCategoryController.cs" />
     <Compile Include="Controllers\CostOrExpenseController.cs" />
     <Compile Include="Controllers\CurrencyController.cs" />
@@ -92,6 +93,7 @@
     <Compile Include="ViewModels\AccountViewModel.cs" />
     <Compile Include="ViewModels\AppSettingsViewModel.cs" />
     <Compile Include="ViewModels\BaseViewModel.cs" />
+    <Compile Include="ViewModels\ChartViewModels.cs" />
     <Compile Include="ViewModels\CostOrExpenseCategoryViewModel.cs" />
     <Compile Include="ViewModels\CostOrExpenseViewModel.cs" />
     <Compile Include="ViewModels\CurrencyViewModel.cs" />
@@ -315,6 +317,7 @@
     <Content Include="Global.asax" />
     <Content Include="README.jQuery.vsdoc.txt" />
     <Content Include="Scripts\App\app-jq.js" />
+    <Content Include="Scripts\App\app-charts-jq.js" />
     <Content Include="Scripts\App\dashboard-jq.js" />
     <Content Include="Scripts\backbone.js" />
     <Content Include="Scripts\backbone.min.js" />
