@@ -5,8 +5,10 @@ using System.Linq.Expressions;
 using System.Web;
 using System.Web.Mvc;
 using System.Web.Mvc.Html;
+using RnD.KashPlugSample.Helpers;
+using RnD.KashPlugSample.ViewModels;
 
-namespace RnD.KashPlugSample.Helpers
+namespace RnD.KashPlugSample
 {
     public static class HtmlHelperExtension
     {
@@ -244,18 +246,33 @@ namespace RnD.KashPlugSample.Helpers
 
         public static IHtmlString RenderBreadcrumb(this HtmlHelper htmlHelper)
         {
-            var title = String.Empty;
+            var strContent = String.Empty;
 
-            var viewDataTitle = htmlHelper.ViewContext.ViewData["Title"] == null ? null : htmlHelper.ViewContext.ViewData["Title"];
-            if (viewDataTitle != null)
-            {
-                var tempTitle = viewDataTitle;
-                title += tempTitle;
+            var httpContext = HttpContext.Current;
+            var httpContextBase = new HttpContextWrapper(httpContext);
+            string areaName = httpContextBase.Request.RequestContext.RouteData.DataTokens.ContainsKey("area") ? httpContextBase.Request.RequestContext.RouteData.DataTokens["area"].ToString() : "";
+            string controllerName = httpContextBase.Request.RequestContext.RouteData.Values["controller"].ToString();
+            string actionName = httpContextBase.Request.RequestContext.RouteData.Values["action"].ToString();
 
-                htmlHelper.ViewContext.ViewData["Title"] = null;
-            }
+            var headerTitle = controllerName;
+            var headerSubTitle = "Information";
+            var breadcrumbUrl = "/" + areaName + "/" + controllerName + "/" + actionName;
+            var breadcrumbControllerName = controllerName;
+            var breadcrumbActionName = actionName;
 
-            return MvcHtmlString.Create(title);
+            strContent += "<section class='content-header'>";
+
+            strContent += "<h1>" + headerTitle;
+            strContent += "<small>" + headerSubTitle + "</small>";
+            strContent += "</h1>";
+            strContent += "<ol class='breadcrumb'>";
+            strContent += "<li><a href='" + breadcrumbUrl + "'><i class='fa fa-dashboard'></i> " + breadcrumbControllerName + "</a></li>";
+            strContent += "<li class='active'>" + breadcrumbActionName + "</li>";
+            strContent += "</ol>";
+
+            strContent += "</section>";
+
+            return MvcHtmlString.Create(strContent);
         }
 
         #endregion
@@ -266,32 +283,344 @@ namespace RnD.KashPlugSample.Helpers
         {
             var title = String.Empty;
 
-            var viewDataTitle = htmlHelper.ViewContext.ViewData["Title"] == null ? null : htmlHelper.ViewContext.ViewData["Title"];
-            if (viewDataTitle != null)
-            {
-                var tempTitle = viewDataTitle;
-                title += tempTitle;
 
-                htmlHelper.ViewContext.ViewData["Title"] = null;
-            }
 
             return MvcHtmlString.Create(title);
         }
 
         public static IHtmlString RenderSideMenu(this HtmlHelper htmlHelper)
         {
-            var title = String.Empty;
+            var strContent = String.Empty;
 
-            var viewDataTitle = htmlHelper.ViewContext.ViewData["Title"] == null ? null : htmlHelper.ViewContext.ViewData["Title"];
-            if (viewDataTitle != null)
+            var menuList = new List<MenuViewModel>
             {
-                var tempTitle = viewDataTitle;
-                title += tempTitle;
+                new MenuViewModel() { Id = 1, ParentId = 1, ChildId = 0, Title = "Dashboard", AreaName = string.Empty, ControllerName = "Home", ActionName = "Index", Url = "", ActionParam = string.Empty , Icon ="fa-dashboard", Badge = string.Empty },
 
-                htmlHelper.ViewContext.ViewData["Title"] = null;
+                new MenuViewModel() { Id = 2, ParentId = 2, ChildId = 0, Title = "Cost/Expense", AreaName = string.Empty, ControllerName = "CostOrExpense", ActionName = "Index", ActionParam = string.Empty , Icon ="fa-th", Badge = "out", BadgeColour = "bg-red" },
+
+                new MenuViewModel() { Id = 3, ParentId = 3, ChildId = 0, Title = "Sale/Income", AreaName = string.Empty, ControllerName = "SaleOrIncome", ActionName = "Index", ActionParam = string.Empty , Icon ="fa-th", Badge = "in" , BadgeColour="bg-green" },
+
+                new MenuViewModel() { Id = 4, ParentId = 4, ChildId = 0, Title = "Charts", AreaName = string.Empty, ControllerName = string.Empty, ActionName = string.Empty, ActionParam = string.Empty , Icon ="fa-bar-chart-o", Badge = "paid feature", BadgeColour="bg-yellow", ChildMenus = new List<MenuViewModel>()
+                {
+                    new MenuViewModel() { Id = 5, ParentId = 4, ChildId = 1, Title = "Cost/Expense Charts", AreaName = string.Empty, ControllerName = "Charts", ActionName = "CostOrExpense", ActionParam = string.Empty , Icon =string.Empty, Badge = string.Empty },
+                    new MenuViewModel() { Id = 6, ParentId = 4, ChildId = 2, Title = "Sale/Income Charts", AreaName = string.Empty, ControllerName = "Charts", ActionName = "SaleOrIncome", ActionParam = string.Empty , Icon =string.Empty, Badge = string.Empty },
+
+                }},
+
+                new MenuViewModel() { Id = 7, ParentId = 7, ChildId = 0, Title = "Settings", AreaName = string.Empty, ControllerName = string.Empty, ActionName = string.Empty, ActionParam = string.Empty , Icon ="fa-gears", Badge = string.Empty, ChildMenus = new List<MenuViewModel>()
+                {
+                    new MenuViewModel() { Id = 8, ParentId = 7, ChildId = 1, Title = "Account", AreaName = string.Empty, ControllerName = "Account", ActionName = "Index", ActionParam = string.Empty , Icon =string.Empty, Badge = string.Empty },
+                    new MenuViewModel() { Id = 9, ParentId = 7, ChildId = 2, Title = "Currency", AreaName = string.Empty, ControllerName = "Currency", ActionName = "Index", ActionParam = string.Empty , Icon =string.Empty, Badge = string.Empty },
+                    new MenuViewModel() { Id = 10, ParentId = 7, ChildId = 3, Title = "Cost/Expense Category", AreaName = string.Empty, ControllerName = "CostOrExpenseCategory", ActionName = "Index", ActionParam = string.Empty , Icon =string.Empty, Badge = string.Empty },
+                    new MenuViewModel() { Id = 11, ParentId = 7, ChildId = 4, Title = "Sale/Income Category", AreaName = string.Empty, ControllerName = "SaleOrIncomeCategory", ActionName = "Index", ActionParam = string.Empty , Icon =string.Empty, Badge = string.Empty },
+                    new MenuViewModel() { Id = 12, ParentId = 7, ChildId = 5, Title = "Settings", AreaName = string.Empty, ControllerName = "AppSetting", ActionName = "Index", ActionParam = string.Empty , Icon =string.Empty, Badge = string.Empty }
+
+                }},
+
+                new MenuViewModel() { Id = 13, ParentId = 13, ChildId = 0, Title = "Help", AreaName = string.Empty, ControllerName = "Help", ActionName = "Index", ActionParam = string.Empty , Icon ="fa-laptop", Badge = string.Empty },
+
+            };
+
+            var sortMenuList = menuList.OrderBy(x => x.ParentId).ToList();
+
+            strContent += "<ul class='sidebar-menu'>";
+
+            foreach (var menu in sortMenuList)
+            {
+                if (menu.ChildMenus == null)
+                {
+                    if (String.IsNullOrEmpty(menu.Badge))
+                    {
+                        //Without Child Menu and Badge
+                        strContent += "<li class='active'>";
+                        strContent += "<a href='" + menu.Url + "'><i class='fa " + menu.Icon + "'></i>";
+                        strContent += "<span>" + menu.Title + "</span>";
+                        strContent += "</a>";
+                        strContent += "</li>";
+                    }
+                    else if (!String.IsNullOrEmpty(menu.Badge))
+                    {
+                        //Without Child Menu and With Badge
+                        strContent += "<li class='active'>";
+                        strContent += "<a href='" + menu.Url + "'><i class='fa " + menu.Icon + "'></i>";
+                        strContent += "<span>" + menu.Title + "</span>";
+                        strContent += "<small class='badge pull-right " + menu.BadgeColour + "'>" + menu.Badge + "</small>";
+                        strContent += "</a>";
+                        strContent += "</li>";
+                    }
+                }
+                else
+                {
+                    if (menu.ChildMenus.Count > 0 && String.IsNullOrEmpty(menu.Badge))
+                    {
+                        //With Child Menu and Without Badge
+                        strContent += "<li class='treeview'>";
+                        strContent += "<a href='" + menu.Url + "'><i class='fa " + menu.Icon + "'></i>";
+                        strContent += "<span>" + menu.Title + "</span>";
+                        strContent += "<i class='fa fa-angle-left pull-right'> </i>";
+                        strContent += "</a>";
+
+                        //Child Menu
+                        strContent += "<ul class='treeview-menu'>";
+
+                        var sortChildMenuList = menu.ChildMenus.OrderBy(x => x.ParentId).ThenBy(x => x.ChildId).ToList();
+
+                        foreach (var childMenu in sortChildMenuList)
+                        {
+                            //Loop
+                            strContent += "<li>";
+                            strContent += "<a href='" + childMenu.Url + "'><i class='fa fa-angle-double-right'></i>" + childMenu.Title + "</a>";
+                            strContent += "</li>";
+                        }
+
+                        strContent += "</ul>";
+                        strContent += "</li>";
+                    }
+                    else if (menu.ChildMenus.Count > 0 && !String.IsNullOrEmpty(menu.Badge))
+                    {
+                        //With Child Menu and With Badge
+                        strContent += "<li class='treeview'>";
+                        strContent += "<a href='" + menu.Url + "'><i class='fa " + menu.Icon + "'></i>";
+                        strContent += "<span>" + menu.Title + "</span>";
+                        strContent += "<i class='fa fa-angle-left pull-right'> </i>";
+                        strContent += "<small class='badge pull-right " + menu.BadgeColour + "'>" + menu.Badge + "</small>";
+                        strContent += "</a>";
+                        //Child Menu
+                        strContent += "<ul class='treeview-menu'>";
+
+                        var sortChildMenuList = menu.ChildMenus.OrderBy(x => x.ParentId).ThenBy(x => x.ChildId).ToList();
+
+                        foreach (var childMenu in sortChildMenuList)
+                        {
+                            //Loop
+                            strContent += "<li>";
+                            strContent += "<a href='" + childMenu.Url + "'><i class='fa fa-angle-double-right'></i>" + childMenu.Title + "</a>";
+                            strContent += "</li>";
+                        }
+
+                        strContent += "</ul>";
+                        strContent += "</li>";
+                    }
+
+                }
+            }
+            strContent += "</ul>";
+
+            return MvcHtmlString.Create(strContent);
+        }
+
+        #endregion
+
+        #region Email Notification
+
+        public static IHtmlString RenderEmailNotify(this HtmlHelper htmlHelper)
+        {
+            var strContent = String.Empty;
+
+            var totalEmail = 5;
+            var emailNotifyList = new List<EmailNotifyViewModel>
+            {
+                new EmailNotifyViewModel() { EmailSubject = "Support Team", EmailBody = "Why not buy a new awesome theme?", EmailDate = Convert.ToDateTime(DateTime.Now.ToShortDateString()), UserViewModel = new UserViewModel() { UserName = "Rasel", UserPhotoPath = "../../Theme/img/avatar3.png" } },
+
+                new EmailNotifyViewModel() { EmailSubject = "AdminLTE Design Team", EmailBody = "Why not buy a new awesome theme?", EmailDate = Convert.ToDateTime(DateTime.Now.ToShortDateString()), UserViewModel = new UserViewModel() { UserName = "Sohel", UserPhotoPath = "../../Theme/img/avatar2.png" } },
+
+                new EmailNotifyViewModel() { EmailSubject = "Developers", EmailBody = "Why not buy a new awesome theme?", EmailDate = Convert.ToDateTime(DateTime.Now.ToShortDateString()), UserViewModel = new UserViewModel() { UserName = "Shafin", UserPhotoPath = "../../Theme/img/avatar.png" } },
+
+                new EmailNotifyViewModel() { EmailSubject = "Sales Department", EmailBody = "Why not buy a new awesome theme?", EmailDate = Convert.ToDateTime(DateTime.Now.ToShortDateString()), UserViewModel = new UserViewModel() { UserName = "Ahmmed", UserPhotoPath = "../../Theme/img/avatar2.png" } },
+
+                new EmailNotifyViewModel() { EmailSubject = "Reviewers", EmailBody = "Why not buy a new awesome theme?", EmailDate = Convert.ToDateTime(DateTime.Now.ToShortDateString()), UserViewModel = new UserViewModel() { UserName = "Bappi", UserPhotoPath = "../../Theme/img/avatar.png" } },
+
+            };
+
+            var allMessageLink = "";
+
+            strContent += "<a href='" + allMessageLink + "' class='dropdown-toggle' data-toggle='dropdown'>";
+            strContent += "<i class='fa fa-envelope'></i><span class='label label-success'>" + totalEmail + "</span>";
+            strContent += "</a>";
+            strContent += "<ul class='dropdown-menu'>";
+
+            strContent += "<li class='header'>You have" + totalEmail + " messages</li>";
+            strContent += "<li>";
+            strContent += "<ul class='menu'>";
+
+            //All Email Notify List
+            foreach (var emailNotify in emailNotifyList)
+            {
+                var emailNotifyLink = "";
+                strContent += "<li>";
+                strContent += "<a href='" + emailNotifyLink + "'>";
+
+                //User Info
+                strContent += "<div class='pull-left'>";
+                strContent += "<img src='" + emailNotify.UserViewModel.UserPhotoPath + "' class='img-circle' alt='" + emailNotify.UserViewModel.UserName + "' />";
+                strContent += "</div>";
+
+                //Subject
+                strContent += "<h4>" + emailNotify.EmailSubject;
+                strContent += "<small><i class='fa fa-clock-o'></i>" + emailNotify.EmailDate + "</small>";
+                strContent += "</h4>";
+
+                //Body
+                strContent += "<p>" + emailNotify.EmailBody + "</p>";
+
+                strContent += "</a>";
+                strContent += "</li>";
             }
 
-            return MvcHtmlString.Create(title);
+            strContent += "</ul>";
+            strContent += "</li>";
+            strContent += "<li class='footer'><a href='" + allMessageLink + "'>See All Messages</a></li>";
+            strContent += "</ul>";
+
+
+            return MvcHtmlString.Create(strContent);
+        }
+
+        #endregion
+
+        #region Error Massege Notification
+
+        public static IHtmlString RenderAppErrorNotify(this HtmlHelper htmlHelper)
+        {
+            var strContent = String.Empty;
+
+            var totalError = 5;
+            var errorNotifyList = new List<ErrorNotifyViewModel>
+            {
+                new ErrorNotifyViewModel() { ErrorIcon = "fa-warning", ErrorType = MessageType.warning.ToString(), ErrorMessage = "Very long description here that may not fit into the page and may cause design problems", ErrorDate = Convert.ToDateTime(DateTime.Now.ToShortDateString()) },
+
+                new ErrorNotifyViewModel() { ErrorIcon = "fa-check", ErrorType = MessageType.success.ToString(), ErrorMessage = "25 sales made", ErrorDate = Convert.ToDateTime(DateTime.Now.ToShortDateString()) },
+
+                new ErrorNotifyViewModel() { ErrorIcon = "fa-info", ErrorType = MessageType.info.ToString(), ErrorMessage = "5 new members joined", ErrorDate = Convert.ToDateTime(DateTime.Now.ToShortDateString()) },
+
+                new ErrorNotifyViewModel() { ErrorIcon = "fa-ban", ErrorType = MessageType.danger.ToString(), ErrorMessage = "System has been off", ErrorDate = Convert.ToDateTime(DateTime.Now.ToShortDateString()) },
+
+                new ErrorNotifyViewModel() { ErrorIcon = "fa-warning", ErrorType = MessageType.warning.ToString(), ErrorMessage = "You changed your username", ErrorDate = Convert.ToDateTime(DateTime.Now.ToShortDateString()) },
+
+            };
+
+            var allMessageLink = "";
+
+            strContent += "<a href='" + allMessageLink + "' class='dropdown-toggle' data-toggle='dropdown'>";
+            strContent += "<i class='fa fa-warning'></i><span class='label label-warning'>" + totalError + "</span>";
+            strContent += "</a>";
+            strContent += "<ul class='dropdown-menu'>";
+
+            strContent += "<li class='header'>You have" + totalError + " notifications</li>";
+            strContent += "<li>";
+            strContent += "<ul class='menu'>";
+
+            //All Email Notify List
+            foreach (var errorNotify in errorNotifyList)
+            {
+                var errorNotifyLink = "";
+                strContent += "<li>";
+                strContent += "<a href='" + errorNotifyLink + "'>";
+
+                //Error
+                strContent += "<i class='fa " + errorNotify.ErrorIcon + " " + errorNotify.ErrorType + "'></i>" + errorNotify.ErrorType;
+
+                strContent += "</a>";
+                strContent += "</li>";
+
+            }
+
+            strContent += "</ul>";
+            strContent += "</li>";
+            strContent += "<li class='footer'><a href='" + allMessageLink + "'>View all</a></li>";
+            strContent += "</ul>";
+
+
+            return MvcHtmlString.Create(strContent);
+        }
+
+        #endregion
+
+        #region User Navbar
+
+        public static IHtmlString RenderUserNavbar(this HtmlHelper htmlHelper)
+        {
+            var strContent = String.Empty;
+
+            var userViewModel = new UserViewModel() { UserName = "Rasel", FullName = "Rasel Ahmmed Bappi", UserPhotoPath = "../../Theme/img/avatar3.png" };
+
+
+            var userProfileLink = "";
+            var userProfileTxt = "Profile";
+            var followersLink = "";
+            var followersTxt = "Followers";
+            var salesLink = "";
+            var salesTxt = "Sales";
+            var friendsLink = "";
+            var friendsTxt = "Friends";
+            var userSignOutLink = "";
+            var userSignOutTxt = "Sign Out";
+
+            strContent += "<a href='" + userProfileLink + "' class='dropdown-toggle' data-toggle='dropdown'>";
+            strContent += "<i class='glyphicon glyphicon-user'></i><span>" + userViewModel.UserName + " <i class='caret'></i></span>";
+            strContent += "</a>";
+            strContent += "<ul class='dropdown-menu'>";
+
+            //User Info
+            strContent += "<li class='user-header bg-light-blue'>";
+            strContent += "<img src='" + userViewModel.UserPhotoPath + "' class='img-circle' alt='User Image' />";
+
+            strContent += "<p>";
+            strContent += userViewModel.FullName + " - Web Developer <small>Member since Nov. 2012</small>";
+            strContent += "</p>";
+            strContent += "</li>";
+
+            strContent += "<li class='user-body'>";
+            strContent += "<div class='col-xs-4 text-center'>";
+            strContent += "<a href='" + followersLink + "'>" + followersTxt + "</a>";
+            strContent += "</div>";
+            strContent += "<div class='col-xs-4 text-center'>";
+            strContent += "<a href='" + salesLink + "'>" + salesTxt + "</a>";
+            strContent += "</div>";
+            strContent += "<div class='col-xs-4 text-center'>";
+            strContent += "<a href='" + friendsLink + "'>" + friendsTxt + "</a>";
+            strContent += "</div>";
+            strContent += "</li>";
+
+            strContent += "<li class='user-footer'>";
+            strContent += "<div class='pull-left'>";
+            strContent += "<a href='" + userProfileLink + "' class='btn btn-default btn-flat'>" + userProfileTxt + "</a>";
+            strContent += "</div>";
+            strContent += "<div class='pull-right'>";
+            strContent += "<a href='" + userSignOutLink + "' class='btn btn-default btn-flat'>" + userSignOutTxt + "</a>";
+            strContent += "</div>";
+            strContent += "</li>";
+
+            strContent += "</ul>";
+
+            return MvcHtmlString.Create(strContent);
+        }
+
+        #endregion
+
+        #region User Sidebar
+
+        public static IHtmlString RenderUserSidebar(this HtmlHelper htmlHelper)
+        {
+            var strContent = String.Empty;
+
+            var userViewModel = new UserViewModel() { UserName = "Rasel", FullName = "Rasel Ahmmed Bappi", UserPhotoPath = "../../Theme/img/avatar3.png" };
+
+            var userProfileLink = "";
+
+            strContent += "<div class='pull-left image'>";
+            strContent += "<img src='" + userViewModel.UserPhotoPath + "' class='img-circle' alt='" + userViewModel.UserName + "' />";
+            strContent += "</div>";
+
+            strContent += "<div class='pull-left info'>";
+            strContent += "<p> Hello, ";
+            strContent += userViewModel.UserName;
+            strContent += "</p>";
+            strContent += "<a href='" + userProfileLink + "'><i class='fa fa-circle text-success'></i>Online</a>";
+            strContent += "</div>";
+
+
+            return MvcHtmlString.Create(strContent);
         }
 
         #endregion

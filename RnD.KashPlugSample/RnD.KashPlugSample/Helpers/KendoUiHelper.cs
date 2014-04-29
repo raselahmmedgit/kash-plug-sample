@@ -18,6 +18,15 @@ namespace RnD.KashPlugSample.Helpers
             return strReturn;
         }
 
+        public static string GetKendoUiWindowAjaxSuccessMethod(string status, string actionName, string messageType, string messageText)
+        {
+            string strReturn = string.Empty;
+
+            strReturn = status + "|" + actionName + "|" + messageType + "|" + messageText;
+
+            return strReturn;
+        }
+
         public static KendoUiGridResult<T> ParseGridData<T>(IQueryable<T> collection, KendoUiGridParam requestParam)
         {
             return ReturnGridData<T>(requestParam, ref collection);

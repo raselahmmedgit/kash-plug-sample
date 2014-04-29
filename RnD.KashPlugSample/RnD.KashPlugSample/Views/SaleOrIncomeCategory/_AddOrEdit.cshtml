@@ -17,6 +17,9 @@
         </div>
         <div class="row ">
             @Html.HiddenFor(model => model.SaleOrIncomeCategoryId)
+            @Html.HiddenFor(model => model.AreaName)
+            @Html.HiddenFor(model => model.ControllerName)
+            @Html.HiddenFor(model => model.ActionName)
             <div class="form-group">
                 @Html.LabelFor(model => model.SaleOrIncomeCategoryName)
                 @Html.TextBoxFor(model => model.SaleOrIncomeCategoryName)

@@ -180,6 +180,37 @@ function AppCommonWindowComplete() {
 
 }
 
+//function AppCommonWindowSuccess() {
+
+//    var updateTargetIdValue = $("#updateTargetId").html().trim();
+
+//    var updateTargetIdValueList = updateTargetIdValue.split("|");
+
+//    var statusValue = updateTargetIdValueList[0];
+//    var messageTypeValue = updateTargetIdValueList[1];
+//    var messageTextValue = updateTargetIdValueList[2];
+
+//    if (statusValue == "True") {
+
+//        //close kendo ui window
+//        CloseAppCommonWindow();
+
+//        LoadAppMessageWindowForAjaxSuccess(messageTypeValue, messageTextValue);
+
+//        KendoGridRefreshInIndexPage(); //Have to add index page
+//    }
+//    else {
+
+
+//        //kendo ui progress window close
+//        CloseAppProgressWindow();
+
+//        $("#updateTargetId").html("");
+//        $("#updateTargetId").html(messageTextValue);
+//        $("#updateTargetId").show();
+//    }
+//}
+
 function AppCommonWindowSuccess() {
 
     var updateTargetIdValue = $("#updateTargetId").html().trim();
@@ -187,15 +218,28 @@ function AppCommonWindowSuccess() {
     var updateTargetIdValueList = updateTargetIdValue.split("|");
 
     var statusValue = updateTargetIdValueList[0];
-    var messageTypeValue = updateTargetIdValueList[1];
-    var messageTextValue = updateTargetIdValueList[2];
+    var actionName = updateTargetIdValueList[1];
+    var messageTypeValue = updateTargetIdValueList[2];
+    var messageTextValue = updateTargetIdValueList[3];
 
     if (statusValue == "True") {
 
-        //close kendo ui window
-        CloseAppCommonWindow();
+        if (actionName == "Add") {
 
-        LoadAppMessageWindowForAjaxSuccess(messageTypeValue, messageTextValue);
+            $("#updateTargetId").html("");
+            $('#updateTargetId').removeClass('callout-warning');
+            $('#updateTargetId').addClass('callout-info');
+            $("#updateTargetId").html(messageTextValue);
+            $("#updateTargetId").show();
+
+        }
+        else if (actionName == "Edit") {
+
+            //close kendo ui window
+            CloseAppCommonWindow();
+
+            LoadAppMessageWindowForAjaxSuccess(messageTypeValue, messageTextValue);
+        }
 
         KendoGridRefreshInIndexPage(); //Have to add index page
     }
@@ -206,6 +250,8 @@ function AppCommonWindowSuccess() {
         CloseAppProgressWindow();
 
         $("#updateTargetId").html("");
+        $('#updateTargetId').removeClass('callout-info');
+        $('#updateTargetId').addClass('callout-warning');
         $("#updateTargetId").html(messageTextValue);
         $("#updateTargetId").show();
     }

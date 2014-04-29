@@ -105,12 +105,12 @@ namespace RnD.KashPlugSample.Controllers
                 if (ModelState.IsValid)
                 {
                     //add
-                    if (currencyViewModel.CurrencyId == 0)
+                    if (currencyViewModel.CurrencyId == 0 && currencyViewModel.ActionName == "Add")
                     {
                         var model = new Currency() { CurrencyId = currencyViewModel.CurrencyId, CurrencyName = currencyViewModel.CurrencyName };
                         _db.Currencies.Add(model);
                     }
-                    else //edit
+                    else if (currencyViewModel.ActionName == "Edit") //edit
                     {
                         Currency currency = _db.Currencies.Find(currencyViewModel.CurrencyId);
 
@@ -130,7 +130,9 @@ namespace RnD.KashPlugSample.Controllers
 
                     _db.SaveChanges();
 
-                    return Content(KendoUiHelper.GetKendoUiWindowAjaxSuccessMethod(Boolean.TrueString, MessageType.success.ToString(), "Saved Successfully."));
+                    //return Content(KendoUiHelper.GetKendoUiWindowAjaxSuccessMethod(Boolean.TrueString, MessageType.success.ToString(), "Saved Successfully."));
+                    return Content(KendoUiHelper.GetKendoUiWindowAjaxSuccessMethod(Boolean.TrueString, currencyViewModel.ActionName, MessageType.success.ToString(), "Saved Successfully."));
+
                 }
 
                 return Content(KendoUiHelper.GetKendoUiWindowAjaxSuccessMethod(Boolean.TrueString, MessageType.success.ToString(), ExceptionHelper.ModelStateErrorFormat(ModelState)));

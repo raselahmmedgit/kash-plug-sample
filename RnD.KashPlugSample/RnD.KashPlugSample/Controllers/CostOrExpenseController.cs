@@ -118,12 +118,12 @@ namespace RnD.KashPlugSample.Controllers
                 if (ModelState.IsValid)
                 {
                     //add
-                    if (costOrExpenseViewModel.CostOrExpenseId == 0)
+                    if (costOrExpenseViewModel.CostOrExpenseId == 0 && costOrExpenseViewModel.ActionName == "Add")
                     {
                         var model = new CostOrExpense() { CostOrExpenseId = costOrExpenseViewModel.CostOrExpenseId, Amount = costOrExpenseViewModel.Amount, CreateDate = costOrExpenseViewModel.CreateDate, Remarks = costOrExpenseViewModel.Remarks, AccountId = costOrExpenseViewModel.AccountId, CostOrExpenseCategoryId = costOrExpenseViewModel.CostOrExpenseCategoryId };
                         _db.CostOrExpenses.Add(model);
                     }
-                    else //edit
+                    else if (costOrExpenseViewModel.ActionName == "Edit") //edit
                     {
                         CostOrExpense costOrExpense = _db.CostOrExpenses.Find(costOrExpenseViewModel.CostOrExpenseId);
 
@@ -148,7 +148,9 @@ namespace RnD.KashPlugSample.Controllers
 
                     _db.SaveChanges();
 
-                    return Content(KendoUiHelper.GetKendoUiWindowAjaxSuccessMethod(Boolean.TrueString, MessageType.success.ToString(), "Saved Successfully."));
+                    //return Content(KendoUiHelper.GetKendoUiWindowAjaxSuccessMethod(Boolean.TrueString, MessageType.success.ToString(), "Saved Successfully."));
+                    return Content(KendoUiHelper.GetKendoUiWindowAjaxSuccessMethod(Boolean.TrueString, costOrExpenseViewModel.ActionName, MessageType.success.ToString(), "Saved Successfully."));
+
                 }
 
                 return Content(KendoUiHelper.GetKendoUiWindowAjaxSuccessMethod(Boolean.TrueString, MessageType.success.ToString(), ExceptionHelper.ModelStateErrorFormat(ModelState)));

@@ -105,12 +105,12 @@ namespace RnD.KashPlugSample.Controllers
                 if (ModelState.IsValid)
                 {
                     //add
-                    if (accountViewModel.AccountId == 0)
+                    if (accountViewModel.AccountId == 0 && accountViewModel.ActionName == "Add")
                     {
                         var model = new Account() { AccountId = accountViewModel.AccountId, AccountName = accountViewModel.AccountName };
                         _db.Accounts.Add(model);
                     }
-                    else //edit
+                    else if (accountViewModel.ActionName == "Edit") //edit
                     {
                         Account account = _db.Accounts.Find(accountViewModel.AccountId);
 
@@ -131,7 +131,9 @@ namespace RnD.KashPlugSample.Controllers
 
                     _db.SaveChanges();
 
-                    return Content(KendoUiHelper.GetKendoUiWindowAjaxSuccessMethod(Boolean.TrueString, MessageType.success.ToString(), "Saved Successfully."));
+                    //return Content(KendoUiHelper.GetKendoUiWindowAjaxSuccessMethod(Boolean.TrueString, MessageType.success.ToString(), "Saved Successfully."));
+                    return Content(KendoUiHelper.GetKendoUiWindowAjaxSuccessMethod(Boolean.TrueString, accountViewModel.ActionName, MessageType.success.ToString(), "Saved Successfully."));
+
                 }
 
                 return Content(KendoUiHelper.GetKendoUiWindowAjaxSuccessMethod(Boolean.TrueString, MessageType.success.ToString(), ExceptionHelper.ModelStateErrorFormat(ModelState)));

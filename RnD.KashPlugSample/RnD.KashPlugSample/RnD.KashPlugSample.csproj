@@ -98,9 +98,13 @@
     <Compile Include="ViewModels\CostOrExpenseViewModel.cs" />
     <Compile Include="ViewModels\CurrencyViewModel.cs" />
     <Compile Include="ViewModels\DashboardViewModels.cs" />
+    <Compile Include="ViewModels\EmailNotifyViewModel.cs" />
+    <Compile Include="ViewModels\ErrorNotifyViewModel.cs" />
     <Compile Include="ViewModels\ErrorViewModel.cs" />
+    <Compile Include="ViewModels\MenuViewModel.cs" />
     <Compile Include="ViewModels\SaleOrIncomeCategoryViewModel.cs" />
     <Compile Include="ViewModels\SaleOrIncomeViewModel.cs" />
+    <Compile Include="ViewModels\UserViewModel.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Content\App\loading.gif" />

@@ -105,12 +105,12 @@ namespace RnD.KashPlugSample.Controllers
                 if (ModelState.IsValid)
                 {
                     //add
-                    if (appSettingsViewModel.AppSettingsId == 0)
+                    if (appSettingsViewModel.AppSettingsId == 0 && appSettingsViewModel.ActionName == "Add")
                     {
                         var model = new AppSettings() { AppSettingsId = appSettingsViewModel.AppSettingsId, Name = appSettingsViewModel.Name };
                         _db.AppSettings.Add(model);
                     }
-                    else //edit
+                    else if (appSettingsViewModel.ActionName == "Edit") //edit
                     {
                         AppSettings appSettings = _db.AppSettings.Find(appSettingsViewModel.AppSettingsId);
 
@@ -132,7 +132,9 @@ namespace RnD.KashPlugSample.Controllers
 
                     _db.SaveChanges();
 
-                    return Content(KendoUiHelper.GetKendoUiWindowAjaxSuccessMethod(Boolean.TrueString, MessageType.success.ToString(), "Saved Successfully."));
+                    //return Content(KendoUiHelper.GetKendoUiWindowAjaxSuccessMethod(Boolean.TrueString, MessageType.success.ToString(), "Saved Successfully."));
+                    return Content(KendoUiHelper.GetKendoUiWindowAjaxSuccessMethod(Boolean.TrueString, appSettingsViewModel.ActionName, MessageType.success.ToString(), "Saved Successfully."));
+
                 }
 
                 return Content(KendoUiHelper.GetKendoUiWindowAjaxSuccessMethod(Boolean.TrueString, MessageType.success.ToString(), ExceptionHelper.ModelStateErrorFormat(ModelState)));
