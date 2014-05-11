@@ -6,6 +6,10 @@ using System.Web.Mvc;
 using System.Web.Routing;
 using System.Data.Entity;
 using RnD.KashPlugSample.Models;
+using System.Web.Http;
+using Autofac;
+using Autofac.Integration.Mvc;
+using System.Reflection;
 
 namespace RnD.KashPlugSample
 {
@@ -35,24 +39,33 @@ namespace RnD.KashPlugSample
         {
             AreaRegistration.RegisterAllAreas();
 
-            InitializeAndSeedDb();
+            SetIocContainer();
 
             RegisterGlobalFilters(GlobalFilters.Filters);
             RegisterRoutes(RouteTable.Routes);
         }
 
-
-        private static void InitializeAndSeedDb()
+        private static void SetIocContainer()
         {
             try
             {
-                // Initializes and seeds the database.
-                Database.SetInitializer(new DBInitializer());
+                //Implement Autofac
 
-                using (var context = new AppDbContext())
-                {
-                    context.Database.Initialize(force: true);
-                }
+                //var configuration = System.Web.Http.GlobalConfiguration.Configuration;
+                var builder = new ContainerBuilder();
+
+                // Register MVC controllers using assembly scanning.
+                builder.RegisterControllers(Assembly.GetExecutingAssembly());
+
+                // Register MVC controller and API controller dependencies per request.
+                builder.Register(c => new AppDbEntities()).InstancePerLifetimeScope();
+                builder.RegisterGeneric(typeof(Repository<>)).InstancePerLifetimeScope();
+
+                var container = builder.Build();
+
+                //for MVC Controller Set the dependency resolver implementation.
+                var resolverMvc = new AutofacDependencyResolver(container);
+                System.Web.Mvc.DependencyResolver.SetResolver(resolverMvc);
             }
             catch (Exception ex)
             {

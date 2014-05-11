@@ -292,32 +292,32 @@ namespace RnD.KashPlugSample
         {
             var strContent = String.Empty;
 
-            var menuList = new List<MenuViewModel>
+            var menuList = new List<ThemeMenuViewModel>
             {
-                new MenuViewModel() { Id = 1, ParentId = 1, ChildId = 0, Title = "Dashboard", AreaName = string.Empty, ControllerName = "Home", ActionName = "Index", Url = "", ActionParam = string.Empty , Icon ="fa-dashboard", Badge = string.Empty },
+                new ThemeMenuViewModel() { Id = 1, ParentId = 1, ChildId = 0, Title = "Dashboard", AreaName = string.Empty, ControllerName = "Home", ActionName = "Index", Url = "", ActionParam = string.Empty , Icon ="fa-dashboard", Badge = string.Empty },
 
-                new MenuViewModel() { Id = 2, ParentId = 2, ChildId = 0, Title = "Cost/Expense", AreaName = string.Empty, ControllerName = "CostOrExpense", ActionName = "Index", ActionParam = string.Empty , Icon ="fa-th", Badge = "out", BadgeColour = "bg-red" },
+                new ThemeMenuViewModel() { Id = 2, ParentId = 2, ChildId = 0, Title = "Cost/Expense", AreaName = string.Empty, ControllerName = "CostOrExpense", ActionName = "Index", ActionParam = string.Empty , Icon ="fa-th", Badge = "out", BadgeColour = "bg-red" },
 
-                new MenuViewModel() { Id = 3, ParentId = 3, ChildId = 0, Title = "Sale/Income", AreaName = string.Empty, ControllerName = "SaleOrIncome", ActionName = "Index", ActionParam = string.Empty , Icon ="fa-th", Badge = "in" , BadgeColour="bg-green" },
+                new ThemeMenuViewModel() { Id = 3, ParentId = 3, ChildId = 0, Title = "Sale/Income", AreaName = string.Empty, ControllerName = "SaleOrIncome", ActionName = "Index", ActionParam = string.Empty , Icon ="fa-th", Badge = "in" , BadgeColour="bg-green" },
 
-                new MenuViewModel() { Id = 4, ParentId = 4, ChildId = 0, Title = "Charts", AreaName = string.Empty, ControllerName = string.Empty, ActionName = string.Empty, ActionParam = string.Empty , Icon ="fa-bar-chart-o", Badge = "paid feature", BadgeColour="bg-yellow", ChildMenus = new List<MenuViewModel>()
+                new ThemeMenuViewModel() { Id = 4, ParentId = 4, ChildId = 0, Title = "Charts", AreaName = string.Empty, ControllerName = string.Empty, ActionName = string.Empty, ActionParam = string.Empty , Icon ="fa-bar-chart-o", Badge = "paid feature", BadgeColour="bg-yellow", ChildMenus = new List<ThemeMenuViewModel>()
                 {
-                    new MenuViewModel() { Id = 5, ParentId = 4, ChildId = 1, Title = "Cost/Expense Charts", AreaName = string.Empty, ControllerName = "Charts", ActionName = "CostOrExpense", ActionParam = string.Empty , Icon =string.Empty, Badge = string.Empty },
-                    new MenuViewModel() { Id = 6, ParentId = 4, ChildId = 2, Title = "Sale/Income Charts", AreaName = string.Empty, ControllerName = "Charts", ActionName = "SaleOrIncome", ActionParam = string.Empty , Icon =string.Empty, Badge = string.Empty },
+                    new ThemeMenuViewModel() { Id = 5, ParentId = 4, ChildId = 1, Title = "Cost/Expense Charts", AreaName = string.Empty, ControllerName = "Charts", ActionName = "CostOrExpense", ActionParam = string.Empty , Icon =string.Empty, Badge = string.Empty },
+                    new ThemeMenuViewModel() { Id = 6, ParentId = 4, ChildId = 2, Title = "Sale/Income Charts", AreaName = string.Empty, ControllerName = "Charts", ActionName = "SaleOrIncome", ActionParam = string.Empty , Icon =string.Empty, Badge = string.Empty },
 
                 }},
 
-                new MenuViewModel() { Id = 7, ParentId = 7, ChildId = 0, Title = "Settings", AreaName = string.Empty, ControllerName = string.Empty, ActionName = string.Empty, ActionParam = string.Empty , Icon ="fa-gears", Badge = string.Empty, ChildMenus = new List<MenuViewModel>()
+                new ThemeMenuViewModel() { Id = 7, ParentId = 7, ChildId = 0, Title = "Settings", AreaName = string.Empty, ControllerName = string.Empty, ActionName = string.Empty, ActionParam = string.Empty , Icon ="fa-gears", Badge = string.Empty, ChildMenus = new List<ThemeMenuViewModel>()
                 {
-                    new MenuViewModel() { Id = 8, ParentId = 7, ChildId = 1, Title = "Account", AreaName = string.Empty, ControllerName = "Account", ActionName = "Index", ActionParam = string.Empty , Icon =string.Empty, Badge = string.Empty },
-                    new MenuViewModel() { Id = 9, ParentId = 7, ChildId = 2, Title = "Currency", AreaName = string.Empty, ControllerName = "Currency", ActionName = "Index", ActionParam = string.Empty , Icon =string.Empty, Badge = string.Empty },
-                    new MenuViewModel() { Id = 10, ParentId = 7, ChildId = 3, Title = "Cost/Expense Category", AreaName = string.Empty, ControllerName = "CostOrExpenseCategory", ActionName = "Index", ActionParam = string.Empty , Icon =string.Empty, Badge = string.Empty },
-                    new MenuViewModel() { Id = 11, ParentId = 7, ChildId = 4, Title = "Sale/Income Category", AreaName = string.Empty, ControllerName = "SaleOrIncomeCategory", ActionName = "Index", ActionParam = string.Empty , Icon =string.Empty, Badge = string.Empty },
-                    new MenuViewModel() { Id = 12, ParentId = 7, ChildId = 5, Title = "Settings", AreaName = string.Empty, ControllerName = "AppSetting", ActionName = "Index", ActionParam = string.Empty , Icon =string.Empty, Badge = string.Empty }
+                    new ThemeMenuViewModel() { Id = 8, ParentId = 7, ChildId = 1, Title = "Account", AreaName = string.Empty, ControllerName = "Account", ActionName = "Index", ActionParam = string.Empty , Icon =string.Empty, Badge = string.Empty },
+                    new ThemeMenuViewModel() { Id = 9, ParentId = 7, ChildId = 2, Title = "Currency", AreaName = string.Empty, ControllerName = "Currency", ActionName = "Index", ActionParam = string.Empty , Icon =string.Empty, Badge = string.Empty },
+                    new ThemeMenuViewModel() { Id = 10, ParentId = 7, ChildId = 3, Title = "Cost/Expense Category", AreaName = string.Empty, ControllerName = "CostOrExpenseCategory", ActionName = "Index", ActionParam = string.Empty , Icon =string.Empty, Badge = string.Empty },
+                    new ThemeMenuViewModel() { Id = 11, ParentId = 7, ChildId = 4, Title = "Sale/Income Category", AreaName = string.Empty, ControllerName = "SaleOrIncomeCategory", ActionName = "Index", ActionParam = string.Empty , Icon =string.Empty, Badge = string.Empty },
+                    new ThemeMenuViewModel() { Id = 12, ParentId = 7, ChildId = 5, Title = "Settings", AreaName = string.Empty, ControllerName = "AppSetting", ActionName = "Index", ActionParam = string.Empty , Icon =string.Empty, Badge = string.Empty }
 
                 }},
 
-                new MenuViewModel() { Id = 13, ParentId = 13, ChildId = 0, Title = "Help", AreaName = string.Empty, ControllerName = "Help", ActionName = "Index", ActionParam = string.Empty , Icon ="fa-laptop", Badge = string.Empty },
+                new ThemeMenuViewModel() { Id = 13, ParentId = 13, ChildId = 0, Title = "Help", AreaName = string.Empty, ControllerName = "Help", ActionName = "Index", ActionParam = string.Empty , Icon ="fa-laptop", Badge = string.Empty },
 
             };
 

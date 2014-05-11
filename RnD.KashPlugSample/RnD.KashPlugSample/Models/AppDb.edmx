@@ -1,0 +1,169 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="2.0" xmlns:edmx="http://schemas.microsoft.com/ado/2008/10/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+    <Schema Namespace="AppDbContext.Store" Alias="Self" Provider="System.Data.SqlClient" ProviderManifestToken="2008" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns="http://schemas.microsoft.com/ado/2009/02/edm/ssdl">
+        <EntityContainer Name="AppDbContextStoreContainer">
+          <EntitySet Name="TblApplications" EntityType="AppDbContext.Store.TblApplications" store:Type="Tables" Schema="dbo" />
+          <EntitySet Name="TblMenus" EntityType="AppDbContext.Store.TblMenus" store:Type="Tables" Schema="dbo" />
+          <EntitySet Name="TblModules" EntityType="AppDbContext.Store.TblModules" store:Type="Tables" Schema="dbo" />
+        </EntityContainer>
+        <EntityType Name="TblApplications">
+          <Key>
+            <PropertyRef Name="ApplicationName" />
+          </Key>
+          <Property Name="ApplicationId" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
+          <Property Name="ApplicationName" Type="varchar" Nullable="false" MaxLength="50" />
+          <Property Name="Description" Type="varchar" MaxLength="500" />
+          <Property Name="ApplicationTitle" Type="varchar" MaxLength="100" />
+        </EntityType>
+        <EntityType Name="TblMenus">
+          <Key>
+            <PropertyRef Name="ApplicationId" />
+            <PropertyRef Name="MenuName" />
+            <PropertyRef Name="ModuleId" />
+          </Key>
+          <Property Name="MenuId" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
+          <Property Name="ApplicationId" Type="int" Nullable="false" />
+          <Property Name="MenuName" Type="varchar" Nullable="false" MaxLength="200" />
+          <Property Name="MenuCaption" Type="varchar" Nullable="false" MaxLength="200" />
+          <Property Name="MenuCaptionBng" Type="varchar" MaxLength="200" />
+          <Property Name="ParentMenuId" Type="int" />
+          <Property Name="SerialNo" Type="int" />
+          <Property Name="MenuIcon" Type="image" />
+          <Property Name="PageUrl" Type="varchar" MaxLength="500" />
+          <Property Name="ModuleId" Type="int" Nullable="false" />
+          <Property Name="OrderNo" Type="int" />
+        </EntityType>
+        <EntityType Name="TblModules">
+          <Key>
+            <PropertyRef Name="ApplicationId" />
+            <PropertyRef Name="ModuleName" />
+          </Key>
+          <Property Name="ModuleId" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
+          <Property Name="ModuleTitle" Type="varchar" MaxLength="200" />
+          <Property Name="Description" Type="varchar" MaxLength="256" />
+          <Property Name="ApplicationId" Type="int" Nullable="false" />
+          <Property Name="ModuleName" Type="varchar" Nullable="false" MaxLength="50" />
+        </EntityType>
+      </Schema></edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="AppDbContext" Alias="Self" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns="http://schemas.microsoft.com/ado/2008/09/edm">
+        <EntityContainer Name="AppDbEntities" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="TblApplications" EntityType="AppDbContext.TblApplication" />
+          <EntitySet Name="TblModules" EntityType="AppDbContext.TblModule" />
+          <EntitySet Name="TblMenus" EntityType="AppDbContext.TblMenu" />
+        </EntityContainer>
+        <EntityType Name="TblApplication">
+          <Key>
+            <PropertyRef Name="ApplicationName" />
+          </Key>
+          <Property Name="ApplicationId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="ApplicationName" Type="String" Nullable="false" MaxLength="50" Unicode="false" FixedLength="false" />
+          <Property Name="Description" Type="String" MaxLength="500" Unicode="false" FixedLength="false" />
+          <Property Name="ApplicationTitle" Type="String" MaxLength="100" Unicode="false" FixedLength="false" />
+        </EntityType>
+        <EntityType Name="TblModule">
+          <Key>
+            <PropertyRef Name="ApplicationId" />
+            <PropertyRef Name="ModuleName" />
+          </Key>
+          <Property Name="ModuleId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="ModuleTitle" Type="String" MaxLength="200" Unicode="false" FixedLength="false" />
+          <Property Name="Description" Type="String" MaxLength="256" Unicode="false" FixedLength="false" />
+          <Property Name="ApplicationId" Type="Int32" Nullable="false" />
+          <Property Name="ModuleName" Type="String" Nullable="false" MaxLength="50" Unicode="false" FixedLength="false" />
+        </EntityType>
+        <EntityType Name="TblMenu">
+          <Key>
+            <PropertyRef Name="ApplicationId" />
+            <PropertyRef Name="MenuName" />
+            <PropertyRef Name="ModuleId" />
+          </Key>
+          <Property Type="Int32" Name="MenuId" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Type="Int32" Name="ApplicationId" Nullable="false" />
+          <Property Type="String" Name="MenuName" Nullable="false" MaxLength="200" FixedLength="false" Unicode="false" />
+          <Property Type="String" Name="MenuCaption" Nullable="false" MaxLength="200" FixedLength="false" Unicode="false" />
+          <Property Type="String" Name="MenuCaptionBng" MaxLength="200" FixedLength="false" Unicode="false" />
+          <Property Type="Int32" Name="ParentMenuId" />
+          <Property Type="Int32" Name="SerialNo" />
+          <Property Type="Binary" Name="MenuIcon" MaxLength="Max" FixedLength="false" />
+          <Property Type="String" Name="PageUrl" MaxLength="500" FixedLength="false" Unicode="false" />
+          <Property Type="Int32" Name="ModuleId" Nullable="false" />
+          <Property Type="Int32" Name="OrderNo" />
+        </EntityType>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2008/09/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="AppDbContextStoreContainer" CdmEntityContainer="AppDbEntities">
+          <EntitySetMapping Name="TblApplications">
+            <EntityTypeMapping TypeName="AppDbContext.TblApplication">
+              <MappingFragment StoreEntitySet="TblApplications">
+                <ScalarProperty Name="ApplicationId" ColumnName="ApplicationId" />
+                <ScalarProperty Name="ApplicationName" ColumnName="ApplicationName" />
+                <ScalarProperty Name="Description" ColumnName="Description" />
+                <ScalarProperty Name="ApplicationTitle" ColumnName="ApplicationTitle" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="TblModules">
+            <EntityTypeMapping TypeName="AppDbContext.TblModule">
+              <MappingFragment StoreEntitySet="TblModules">
+                <ScalarProperty Name="ModuleId" ColumnName="ModuleId" />
+                <ScalarProperty Name="ModuleTitle" ColumnName="ModuleTitle" />
+                <ScalarProperty Name="Description" ColumnName="Description" />
+                <ScalarProperty Name="ApplicationId" ColumnName="ApplicationId" />
+                <ScalarProperty Name="ModuleName" ColumnName="ModuleName" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="TblMenus">
+            <EntityTypeMapping TypeName="AppDbContext.TblMenu">
+              <MappingFragment StoreEntitySet="TblMenus">
+                <ScalarProperty Name="OrderNo" ColumnName="OrderNo" />
+                <ScalarProperty Name="ModuleId" ColumnName="ModuleId" />
+                <ScalarProperty Name="PageUrl" ColumnName="PageUrl" />
+                <ScalarProperty Name="MenuIcon" ColumnName="MenuIcon" />
+                <ScalarProperty Name="SerialNo" ColumnName="SerialNo" />
+                <ScalarProperty Name="ParentMenuId" ColumnName="ParentMenuId" />
+                <ScalarProperty Name="MenuCaptionBng" ColumnName="MenuCaptionBng" />
+                <ScalarProperty Name="MenuCaption" ColumnName="MenuCaption" />
+                <ScalarProperty Name="MenuName" ColumnName="MenuName" />
+                <ScalarProperty Name="ApplicationId" ColumnName="ApplicationId" />
+                <ScalarProperty Name="MenuId" ColumnName="MenuId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2008/10/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="True" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="True" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams>
+      <Diagram Name="AppDb">
+        <EntityTypeShape EntityType="AppDbContext.TblApplication" Width="1.5" PointX="0.75" PointY="0.75" Height="1.787985026041667" IsExpanded="true" />
+        <EntityTypeShape EntityType="AppDbContext.TblModule" Width="1.5" PointX="2.75" PointY="0.75" Height="1.9802864583333335" IsExpanded="true" />
+        <EntityTypeShape EntityType="AppDbContext.TblMenu" Width="1.5" PointX="0.75" PointY="3.75" Height="3.1340950520833335" />
+      </Diagram>
+    </Diagrams>
+  </Designer>
+</edmx:Edmx>

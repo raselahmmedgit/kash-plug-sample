@@ -1,1 +1,18 @@
-﻿@Html.RenderSideMenu()
+﻿@*@Html.RenderSideMenu()*@
+<!-- sidebar menu: : style can be found in sidebar.less -->
+<ul class="sidebar-menu">
+    <li><a href="@Url.Action("Index", "Application")"><i class="fa fa-dashboard"></i><span>
+        Dashboard</span> </a></li>
+    <li><a href="@Url.Action("Index", "Application")"><i class="fa fa-th"></i><span>Application</span>
+    </a></li>
+    <li><a href="@Url.Action("Index", "Module")"><i class="fa fa-th"></i><span>Module</span>
+    </a></li>
+    <li><a href="@Url.Action("Index", "Application")"><i class="fa fa-th"></i><span>Menu</span>
+    </a></li>
+    <li><a href="@Url.Action("Index", "Application")"><i class="fa fa-th"></i><span>Role</span>
+    </a></li>
+    <li><a href="@Url.Action("Index", "Application")"><i class="fa fa-th"></i><span>User
+        Group</span> </a></li>
+    <li><a href="@Url.Action("Index", "Application")"><i class="fa fa-th"></i><span>User</span>
+    </a></li>
+</ul>
